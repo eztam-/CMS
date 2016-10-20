@@ -1,11 +1,68 @@
-{% extends "layout.html" %}
-{% block header %}
-    <title>Seite 1 Title</title>
-{% endblock %}
+{% extends "layout.html" %} {% block header %}
+<title>Seite 1 Title</title>
+{% endblock %} {% block content %}
+<div>
+	<h1>Seite 1</h1>
+	<span>Seiteninhalt</span>
+	
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-10 col-lg-offset-1 text-center" cms>
+				<h2 class="wow fadeInRight" data-wow-duration="2s">In
+					Arztpraxen gibt es oft viel Veränderung</h2>
+				<h6 class="wow fadeInLeft" data-wow-duration="2s">Geänderte
+					Öffungszeiten, Urlaub oder neue Mitarbeiter können dazu führen,
+					dass Sie Inhalte ihrer Homepage aktualisieren möchten.</h6>
+			</div>
+		</div>
 
-{% block content %}
-    <div>
-        <h1>Seite 1</h1>
-        <span>Seiteninhalt</span>
-    </div>
+		<div class="row text-center" style="margin-top: 40px;">
+			<div class="col-md-3 col-sm-6 wow wow fadeInLeft"
+				data-wow-delay="0.1s" cms>
+				<h4 class="text-blue service-heading">Flexibel</h4>
+				<p class="text-muted text-justify">Wir bieten Ihnen eine
+					Möglichkeit solche Änderungen einfach selbst über unser
+					eigenentwickeltes Content Management System (CMS) durchführen.</p>
+			</div>
+
+			<div class="col-md-3 col-sm-6 wow fadeInLeft" data-wow-delay="0.4s"
+				cms>
+				<h4 class="text-blue service-heading">CMS</h4>
+				<p class="text-muted text-justify">Das Ganze ist so einfach und
+					selbsterklärend, dass jeder Ihrer Praxismitarbeiter ohne Schulung
+					damit umgehen kann.</p>
+			</div>
+
+			<div class="col-md-3 col-sm-6 wow fadeInLeft" data-wow-delay="0.7s"
+				cms>
+				<h4 class="text-blue service-heading">Intuitiv</h4>
+				<p class="text-muted text-justify">Wir haben unser CMS speziell
+					für die Anforderungen von Ärztewebseiten konzipiert. Es ist
+					deutlich einfacher zu bedienen als die Branchenüblich verwendeten
+					CMS-Systeme.</p>
+			</div>
+
+			<div class="col-md-3 col-sm-6 wow fadeInLeft" data-wow-delay="1s" cms>
+				<h4 class="text-blue service-heading">Mehrsprachigkeit</h4>
+				<p class="text-muted text-justify">Die Texte Ihrer Webseite
+					können auch mehrsprachig eingepflegt werden, wodurch Sie auch
+					fremdsprachige Patienten erreichen.</p>
+			</div>
+		</div>
+
+		<div class="row" style="margin-top: 40px;">
+			<div class="col-lg-12 text-center">
+				<p>
+					<a class="btn btn-xl" onclick="runCmsDemo('cms-demo-bubble-pos2')">
+						<span>Demo starten</span>
+					</a>
+				</p>
+			</div>
+		</div>
+
+
+	</div>
+</div>
+
+<script src="init.js"></script>
 {% endblock %}
