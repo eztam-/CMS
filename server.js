@@ -30,7 +30,7 @@ app.use(bodyParser.json())
 // Default landing page
 // TODO The default page should be set as constant anywhere
 app.get( '/', function( req, res ) {
-    res.render('home.html', {currentPage: 'home'});
+    res.redirect('/home');
 } ) ;
 
 // Respond to all GET requests by rendering relevant page using Nunjucks
@@ -54,9 +54,8 @@ app.put( '/:page', function( req, res ) {
         console.log("The file was saved!");
 
     }
-
 )
-
+    res.status(200);
     //res.render( req.params.page+'.html', {currentPage: req.params.page});
 
 } ) ;
