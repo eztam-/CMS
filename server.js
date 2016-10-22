@@ -102,6 +102,7 @@ app.get( '/:page', function( req, res ) {
     console.log("USER", req.user);
 } ) ;
 
+// TODO protect endpoint for only authenticated users
 app.put( '/:page', function( req, res ) {
     var newContent = req.body;
     var htmlFileName =  __dirname + '/templates/' + req.params.page + '.html';
