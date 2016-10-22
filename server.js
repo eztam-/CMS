@@ -110,12 +110,9 @@ app.get( '/:page', function( req, res ) {
 app.put( '/:page', function( req, res ) {
     var newContent = req.body;
     var htmlFileName =  __dirname + '/templates/' + req.params.page + '.html';
-    
-    var date = moment().format("YYYY-MM-DD_HHmmss");
-    var htmlCopyName =  __dirname + '/templates/backup/' + req.params.page + date + '.html';
-    
+        
     // backup
-    utils.copy(htmlFileName, htmlCopyName, function(){});
+    backup(htmlFileName, req.params.page);
     
     // update
     fs.readFile( htmlFileName, 'utf8', function(err, html){
@@ -127,13 +124,19 @@ app.put( '/:page', function( req, res ) {
                 return console.log(err);
             }
         })
-        console.log("The file was saved!");
+        console.log("-- OK -- The file was saved!");
     }
 )
      res.send('');
      res.status(200);
 } ) ;
 
+backup = function(sourcePath, pageName){
+	var date = moment().format("YYYY-MM-DD_HHmmss");
+    var targetPath =  __dirname + '/templates/backup/' + pageName + date + '.html';
+    // copy
+    utils.copy(sourcePath, targetPath, function(){});
+}
 
 updateHtmlContent = function(content, html){
       $ = cheerio.load(html, {decodeEntities: false});
@@ -142,6 +145,6 @@ updateHtmlContent = function(content, html){
       });
       return $.html();
 }
-// Start server
+// start server
 app.listen( port ) ;
-console.log( 'Server running at http://localhost:%s', port ) ;
+console.log( 'Server running at http://localhost:%s', port );
