@@ -1,7 +1,8 @@
 var express     = require( 'express' ),
     app         = express(),
     nunjucks    = require( 'nunjucks' ),
-    bodyParser  = require( 'body-parser' );
+    bodyParser  = require( 'body-parser' ),
+    fs          = require('fs');
 
 // Define port to run server on
 var port = process.env.PORT || 9000 ;
@@ -22,7 +23,7 @@ app.set( 'view engine', 'html' ) ;
 app.use(express.static('static'));
 app.use(express.static('node_modules'));
 
-// Use JSON mapping for request bodies
+// Use JSON for request body mapping
 app.use(bodyParser.json())
 
 // Default landing page
@@ -38,6 +39,9 @@ app.get( '/:page', function( req, res ) {
 
 app.put( '/:page', function( req, res ) {
     console.log(req.body);
+    fs.readFile(__dirname + '/templates/'+req.params.page+'.html', 'utf8', function(err, html){
+        console.log(html);
+    })
     //res.render( req.params.page+'.html', {currentPage: req.params.page});
 } ) ;
 
