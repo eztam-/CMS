@@ -7,7 +7,7 @@
     "test": "test",
     "start": "node server.js"
   },
-  "author": "medic-web.de",
+  "author": "medicus-webicus.de",
   "license": "",
   "dependencies": {
     "body-parser": "^1.15.2",
