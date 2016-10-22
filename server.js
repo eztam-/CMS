@@ -3,10 +3,14 @@ var express     = require( 'express' ),
     nunjucks    = require( 'nunjucks' ),
     bodyParser  = require( 'body-parser' ),
     fs          = require('fs'),
+    moment      = require('moment'),
     cheerio     = require('cheerio'),
     passport    = require('passport'),
     Strategy    = require('passport-local').Strategy;
-var db = require('./db');
+
+// local libs  
+var db 			= require('./db'),
+	utils       = require('./utils');
 
 
 var port = process.env.PORT || 9000 ;       // Define port to run server on
@@ -105,6 +109,14 @@ app.get( '/:page', function( req, res ) {
 app.put( '/:page', function( req, res ) {
     var newContent = req.body;
     var htmlFileName =  __dirname + '/templates/' + req.params.page + '.html';
+    
+    var date = moment().format("yyyy-mm-dd_hhmmss");
+    var htmlCopyName =  __dirname + '/templates/backup/' + req.params.page + date + '.html';
+    
+    // backup
+    utils.copy(htmlFileName, htmlCopyName, function(){});
+    
+    // update
     fs.readFile( htmlFileName, 'utf8', function(err, html){
         var newHtml = updateHtmlContent(newContent, html)
 
