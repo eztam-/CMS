@@ -1,18 +1,21 @@
 <html>
   <head>
     <meta charset="UTF-8">
+
+    <!-- Additional header content that could be passed from each individual page -->
+    {% block header %}{% endblock %}
+
     <link rel="stylesheet" href="bootstrap/dist/css/bootstrap.css">
     <script src="jquery/dist/jquery.js"></script>
     <script src="bootstrap/dist/js/bootstrap.js"></script>
 
-    <!-- TODO include the following lines just when user is authenticated-->
-    <script src="tinymce/tinymce.min.js"></script>
-    <script src="cms.js"></script>
-    <link rel="stylesheet" href="cms.css">
+    <!-- Include the following lines just when user is authenticated-->
+    {% if isAuth %}
+        <script src="tinymce/tinymce.min.js"></script>
+        <script src="cms.js"></script>
+        <link rel="stylesheet" href="cms.css">
+    {% endif %}
 
-
-    <!-- Additional header content that could be passed from each individual page -->
-    {% block header %}{% endblock %}
   </head>
   <body style="padding-top:70px;">
     <nav class="navbar navbar-default navbar-fixed-top">
@@ -24,6 +27,11 @@
           <ul class="nav navbar-nav navbar-right">
             <li class="home"><a href="/">Home</a></li>
             <li class="page2"><a href="page2">Page 2</a></li>
+            {% if isAuth %}
+                <li><a href="/logout">Logout</a>
+            {% else %}
+                <li class="login"><a href="/login">Login</a></li>
+            {% endif %}
           </ul>
         </div><!--/.nav-collapse -->
       </div>
