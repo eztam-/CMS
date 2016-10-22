@@ -8,7 +8,9 @@ npm start
 
 
 
-
+Ubuntu:
+Fix for nodejs issue:
+sudo apt-get install nodejs-legacy
 
 
 

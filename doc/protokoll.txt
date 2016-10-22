@@ -1,0 +1,21 @@
+
+Authentifizierung
+
+Funktionen
+- Elemte mit id versehen
+
+
++ frontend
+	+ baue eine seite mit der editier funktion wie mw (tinymc)
+		+ alle elemente mit cms Attribut editierbar machen
+	+ save button 
+	+ beim speichern über jquery -> hole alle cms-Elemente und erstelle ein JSON Objket (siehe Python Implementierung)
+	+ JSON Objekt an den Endpoint versenden
+
+- backend
+	- Endpoint empfängt JSON Objekt
+	- Änderungen aus JSON in die HTML Datei schreiben 
+		- Alte Version als backup speichern
+		- Cache invalidieren
+- Grunt oder gulp client side stuff
+		
