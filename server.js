@@ -110,7 +110,7 @@ app.put( '/:page', function( req, res ) {
     var newContent = req.body;
     var htmlFileName =  __dirname + '/templates/' + req.params.page + '.html';
     
-    var date = moment().format("yyyy-mm-dd_hhmmss");
+    var date = moment().format("YYYY-MM-DD_HHmmss");
     var htmlCopyName =  __dirname + '/templates/backup/' + req.params.page + date + '.html';
     
     // backup
