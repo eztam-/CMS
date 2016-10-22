@@ -43,21 +43,18 @@ app.put( '/:page', function( req, res ) {
     var htmlFileName =  __dirname + '/templates/' + req.params.page + '.html';
     fs.readFile( htmlFileName, 'utf8', function(err, html){
         var newHtml = updateHtmlContent(newContent, html)
-        console.log(newHtml);
 
         fs.writeFile(htmlFileName, newHtml, function(err) {
-        if(err) {
-            return console.log(err);
-        }
+            if(err) {
+                res.status(400);
+                return console.log(err);
+            }
         })
-
         console.log("The file was saved!");
-
     }
 )
-    res.status(200);
-    //res.render( req.params.page+'.html', {currentPage: req.params.page});
-
+     res.send('');
+     res.status(200);
 } ) ;
 
 
