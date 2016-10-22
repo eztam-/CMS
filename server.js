@@ -18,6 +18,7 @@ app.engine( 'html', nunjucks.render ) ;
 app.set( 'view engine', 'html' ) ;
 
 // Directory with static files
+app.use(express.static('static'));
 app.use(express.static('node_modules'));
 
 // Default landing page
