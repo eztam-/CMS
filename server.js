@@ -1,6 +1,7 @@
 var express     = require( 'express' ),
     app         = express(),
-    nunjucks    = require( 'nunjucks' ) ;
+    nunjucks    = require( 'nunjucks' ),
+    bodyParser  = require( 'body-parser' );
 
 // Define port to run server on
 var port = process.env.PORT || 9000 ;
@@ -20,6 +21,9 @@ app.set( 'view engine', 'html' ) ;
 // Directory with static files
 app.use(express.static('static'));
 app.use(express.static('node_modules'));
+
+// Use JSON mapping for request bodies
+app.use(bodyParser.json())
 
 // Default landing page
 // TODO The default page should be set as constant anywhere
