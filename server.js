@@ -2,7 +2,8 @@ var express     = require( 'express' ),
     app         = express(),
     nunjucks    = require( 'nunjucks' ),
     bodyParser  = require( 'body-parser' ),
-    fs          = require('fs');
+    fs          = require('fs'),
+    cheerio     = require('cheerio');
 
 // Define port to run server on
 var port = process.env.PORT || 9000 ;
@@ -38,13 +39,36 @@ app.get( '/:page', function( req, res ) {
 } ) ;
 
 app.put( '/:page', function( req, res ) {
-    console.log(req.body);
-    fs.readFile(__dirname + '/templates/'+req.params.page+'.html', 'utf8', function(err, html){
-        console.log(html);
-    })
+    var newContent = req.body;
+    var htmlFileName =  __dirname + '/templates/' + req.params.page + '.html';
+    fs.readFile( htmlFileName, 'utf8', function(err, html){
+        var newHtml = updateHtmlContent(newContent, html)
+        console.log(newHtml);
+
+        fs.writeFile(htmlFileName, newHtml, function(err) {
+        if(err) {
+            return console.log(err);
+        }
+        })
+
+        console.log("The file was saved!");
+
+    }
+
+)
+
     //res.render( req.params.page+'.html', {currentPage: req.params.page});
+
 } ) ;
 
+
+updateHtmlContent = function(content, html){
+      $ = cheerio.load(html);
+      Object.keys(content).forEach(function(cmsId) {
+             $('div[cms='+cmsId+']').html(content[cmsId]);
+      });
+      return $.html();
+}
 // Start server
 app.listen( port ) ;
 console.log( 'Server running at http://localhost:%s', port ) ;
