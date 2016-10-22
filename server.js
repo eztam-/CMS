@@ -63,7 +63,7 @@ app.put( '/:page', function( req, res ) {
 
 
 updateHtmlContent = function(content, html){
-      $ = cheerio.load(html);
+      $ = cheerio.load(html, {decodeEntities: false});
       Object.keys(content).forEach(function(cmsId) {
              $('div[cms='+cmsId+']').html(content[cmsId]);
       });
