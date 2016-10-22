@@ -16,6 +16,7 @@ var saveContent = function(){
       var elem = elements[i];
       var contentId = elem.getAttribute("cms");
       pageContent[contentId] = elem.innerHTML ;
+      console.log(pageContent);
     }
 
     $.ajax({

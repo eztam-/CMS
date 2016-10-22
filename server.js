@@ -32,6 +32,11 @@ app.get( '/:page', function( req, res ) {
     res.render( req.params.page+'.html', {currentPage: req.params.page});
 } ) ;
 
+app.put( '/:page', function( req, res ) {
+    console.log(req.body);
+    //res.render( req.params.page+'.html', {currentPage: req.params.page});
+} ) ;
+
 // Start server
 app.listen( port ) ;
 console.log( 'Server running at http://localhost:%s', port ) ;
