@@ -9,14 +9,15 @@ module.exports = {
 		console.log('Coping started from %s to %s', source, target);
 
 		// TODO validate paths
-		if (!isValid(source) || !isValid(target)){
+		if (!isValid(source) || !isValid(target)) {
 			// npm install is-valid-path --save
-			console.log('-- ERROR -- invalid path(s) source %s and target %s', source, target);
+			console.log('-- ERROR -- invalid path(s) source %s and target %s',
+					source, target);
 			return;
 		}
 		var cbCalled = false;
 		var rd = fs.createReadStream(source);
-		
+
 		rd.on("error", function(err) {
 			done(err);
 		});
@@ -40,5 +41,17 @@ module.exports = {
 			}
 		}
 		console.log('-- OK -- coping finished.');
+	},
+
+	random : function() {
+		var result = "";
+		var length = 4;
+		var possible = "abcdefghijklmnopqrstuvwxyz0123456789";
+
+		for (var i = 0; i < length; i++)
+			result += possible
+					.charAt(Math.floor(Math.random() * possible.length));
+
+		return result;
 	}
 };

@@ -1,13 +1,18 @@
-var cmsElemSelector = 'div[cms]';
+// this css selector defines, which elements might be edited.
+// for experimenting you can visit: 
+// http://www.w3schools.com/css/tryit.asp?filename=trycss_sel_attribute_value
+var cmsElemSelector = '[cms]';
 
-tinymce.init({
+tinymce.init(
+	{
     selector : cmsElemSelector,
     inline : true,
     menubar : false,
     plugins : 'code textcolor colorpicker link ',
     toolbar1 : 'formatselect bold italic underline | alignleft aligncenter alignright alignjustify | fontsizeselect',
     toolbar2 : 'undo redo | forecolor backcolor link unlink | bullist numlist outdent indent | code'
-});
+	}
+);
 
 var saveContent = function(){
     var pageContent = {};
@@ -32,4 +37,16 @@ var saveContent = function(){
         }
      });
 
+}
+
+var random = function() {
+	var result = "";
+	var length = 5;
+	var possible = "abcdefghijklmnopqrstuvwxyz0123456789";
+
+	for (var i = 0; i < length; i++)
+		result += possible
+				.charAt(Math.floor(Math.random() * possible.length));
+
+	return result;
 }
