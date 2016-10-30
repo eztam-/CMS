@@ -1,21 +1,20 @@
 
-Authentifizierung
-
-Funktionen
-- Elemte mit id versehen
++ hosting
+		- node mit apache verbinden -> mod_proxy ??
+		- init.d script
+		- HTTPS für und nach Login
 
 
 + frontend
-	+ baue eine seite mit der editier funktion wie mw (tinymc)
-		+ alle elemente mit cms Attribut editierbar machen
-	+ save button 
-	+ beim speichern über jquery -> hole alle cms-Elemente und erstelle ein JSON Objket (siehe Python Implementierung)
-	+ JSON Objekt an den Endpoint versenden
+		- Login formular etwas schöner machen mit bootstrap elementen
+		- save button ggf. auch?
+		- Grunt, webpack oder gulp für client side stuff?
 
-- backend
-	+ Endpoint empfängt JSON Objekt
-	+ Änderungen aus JSON in die HTML Datei schreiben 
-		- Alte Version als backup speichern
-		- Cache invalidieren
-- Grunt oder gulp client side stuff
-		
+
++ backend
+		- Caching aktivieren
+		- Kinstanten in config.json extrahieren
+		- Cache invalidieren wenn änderungen am content gemacht wurden
+		- ID generierung nochmal überprüfen.
+		- tests?
+		- HTTPS für und nach Login
