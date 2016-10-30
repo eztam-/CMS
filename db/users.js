@@ -1,27 +1,53 @@
-var records = [
-    { id: 1, username: 'a', password: 'a', displayName: 'a', emails: [ { value: 'a' } ] }
-  , { id: 2, username: 'jill', password: 'birthday', displayName: 'Jill', emails: [ { value: 'jill@example.com' } ] }
-];
+var bcrypt   = require('bcrypt-nodejs');
+
+var usersDb = require('./users.json');
 
 exports.findById = function(id, cb) {
-  process.nextTick(function() {
-    var idx = id - 1;
-    if (records[idx]) {
-      cb(null, records[idx]);
-    } else {
-      cb(new Error('User ' + id + ' does not exist'));
-    }
-  });
+	process.nextTick(function() {
+		
+		// search
+		var result;
+		for (var i = 0; i < usersDb.length; i++) {
+			if (usersDb[i].id === id) {
+				
+				result = usersDb[i];
+			}
+		}
+		// return
+		if (result) {
+			cb(null, result);
+		} else {
+			cb(new Error('User ' + id + ' does not exist'));
+		}
+	});
 }
 
 exports.findByUsername = function(username, cb) {
-  process.nextTick(function() {
-    for (var i = 0, len = records.length; i < len; i++) {
-      var record = records[i];
-      if (record.username === username) {
-        return cb(null, record);
-      }
-    }
-    return cb(null, null);
-  });
+	process.nextTick(function() {
+		for (var i = 0; i < usersDb.length; i++) {
+			if (usersDb[i].username === username) {
+				return cb(null, usersDb[i]);
+			}
+		}
+		return cb(null, null);
+	});
 }
+
+
+//generating a hash
+exports.generateHash = function(password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+};
+
+// checking if password is valid
+exports.validPassword = function(username, password) {
+	// ??? var userFromDb = exports.findByUsername(username);
+	
+	for (var i = 0; i < usersDb.length; i++) {
+		if (usersDb[i].username === username && usersDb[i].password === password) {
+			return true;
+		}
+	}
+	return false;
+	//return bcrypt.compareSync(password, passwordFromDb);
+};

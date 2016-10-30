@@ -4,6 +4,14 @@
 
   <h1>Login</h1>
   <form action="/login" method="post">
+  
+{% for message in messages %}
+    <div class='header alert alert-danger alert-dismissible'>
+        <strong><i class="fa fa-exclamation-circle"></i> ERROR:</strong> {{ message | safe }}
+        <a href="#" class='close' data-dismiss="alert" aria-label="close"><i class='fa fa-times'></i></a> 
+    </div>
+{% endfor %}
+  
   	<div>
   	<label>Username:</label>
   	<input type="text" name="username"/><br/>
