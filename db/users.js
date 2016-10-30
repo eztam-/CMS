@@ -1,15 +1,15 @@
-var bcrypt   = require('bcrypt-nodejs');
+var bcrypt = require('bcrypt-nodejs');
 
 var usersDb = require('./users.json');
 
 exports.findById = function(id, cb) {
 	process.nextTick(function() {
-		
+
 		// search
 		var result;
 		for (var i = 0; i < usersDb.length; i++) {
 			if (usersDb[i].id === id) {
-				
+
 				result = usersDb[i];
 			}
 		}
@@ -33,21 +33,32 @@ exports.findByUsername = function(username, cb) {
 	});
 }
 
-
-//generating a hash
+// generating a hash
 exports.generateHash = function(password) {
-    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+	return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 };
 
 // checking if password is valid
-exports.validPassword = function(username, password) {
+exports.validPassword = function(username, password, cb) {
 	// ??? var userFromDb = exports.findByUsername(username);
-	
+
+	var passwordFromDb;
+	var userFromDb;
 	for (var i = 0; i < usersDb.length; i++) {
-		if (usersDb[i].username === username && usersDb[i].password === password) {
-			return true;
+		if (usersDb[i].username === username) {
+			userFromDb = usersDb[i];
+			break;
 		}
 	}
-	return false;
-	//return bcrypt.compareSync(password, passwordFromDb);
+	console.log('---- given password ----');
+	console.log(bcrypt.hashSync(password, bcrypt.genSaltSync(8), null));
+	
+	
+	var passwordOK = bcrypt.compareSync(password, userFromDb.password);
+	if (passwordOK) {
+		return cb(null, userFromDb);
+	}
+	
+	//new Error('Username or/and password is/are wrong.');
+	return cb(null, null);
 };
