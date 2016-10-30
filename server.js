@@ -173,13 +173,11 @@ generateIds = function(pageName) {
 			decodeEntities : false
 		});
 
-		// write the new ids extract to a method
+		// Add generated ids to cms attributes which have no id yet 
 		$('[cms=""]').each(function() {
-			// initialize new ids only for missing ids
 			$(this).attr("cms", utils.findUnusedId($));
 		});
 		var newHtml = $.html();
-		console.log("new html" + newHtml);
 
 		// save
 		fs.writeFile(htmlFileName, newHtml, function(err) {
