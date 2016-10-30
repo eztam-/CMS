@@ -9,6 +9,7 @@
 		- Login formular etwas schöner machen mit bootstrap elementen
 		- save button ggf. auch?
 		- Grunt, webpack oder gulp für client side stuff?
+		- passwort ändern dialog
 
 
 + backend
@@ -18,3 +19,4 @@
 		- ID generierung nochmal überprüfen.
 		- tests?
 		- HTTPS für und nach Login
+		- Passwort ändern endpoint
