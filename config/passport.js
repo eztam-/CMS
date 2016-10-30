@@ -41,7 +41,7 @@ module.exports = function(passport) {
 				return cb(err);
 			}
 			if (!user) {
-				return cb(null, false);
+				return cb(null, false, {message: 'Oops! Wrong password or username.'});
 			}
 			return cb(null, user);
 		});

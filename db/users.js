@@ -52,13 +52,12 @@ exports.validPassword = function(username, password, cb) {
 	}
 	console.log('---- given password ----');
 	console.log(bcrypt.hashSync(password, bcrypt.genSaltSync(8), null));
-	
-	
-	var passwordOK = bcrypt.compareSync(password, userFromDb.password);
-	if (passwordOK) {
-		return cb(null, userFromDb);
+
+	if (userFromDb) {
+		var passwordOK = bcrypt.compareSync(password, userFromDb.password);
+		if (passwordOK) {
+			return cb(null, userFromDb);
+		}
 	}
-	
-	//new Error('Username or/and password is/are wrong.');
 	return cb(null, null);
 };
