@@ -8,11 +8,9 @@ var express     = require( 'express' ),
     passport    = require('passport'),
     Strategy    = require('passport-local').Strategy;
 
-// local libs  
+// local libs
 var db 			= require('./db'),
 	utils       = require('./utils');
-
-const cmsTag    = "cms";
 
 var port = process.env.PORT || 9000; // Define port to run server on
 
@@ -109,9 +107,12 @@ app.get('/:page', function(req, res) {
 	var pageName = req.params.page;
 
 	// generate ids for cms tagged elements
-	if (req.user) {
-		// not finished yet
-		// generateIds(pageName);
+  	if (req.user) {
+		// TODO fix this favicon problem!!!
+		if (pageName !== 'favicon.ico') {
+			// not finished yet
+			 generateIds(pageName);
+		}
 	}
 	res.render(pageName + '.html', {
 		currentPage : pageName,
@@ -173,13 +174,9 @@ generateIds = function(pageName) {
 		});
 
 		// write the new ids extract to a method
-		$('[cms]').each(function() {
-			
-			console.log("this" + $( this ));
-			// initialize random ids only for missing ids
-			if (! $(this).attr("cms")) {
-				$(this).attr("cms", utils.random());
-			}
+		$('[cms=""]').each(function() {
+			// initialize new ids only for missing ids
+			$(this).attr("cms", utils.findUnusedId($));
 		});
 		var newHtml = $.html();
 		console.log("new html" + newHtml);

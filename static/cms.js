@@ -1,5 +1,5 @@
 // this css selector defines, which elements might be edited.
-// for experimenting you can visit: 
+// for experimenting you can visit:
 // http://www.w3schools.com/css/tryit.asp?filename=trycss_sel_attribute_value
 var cmsElemSelector = '[cms]';
 
@@ -37,16 +37,4 @@ var saveContent = function(){
         }
      });
 
-}
-
-var random = function() {
-	var result = "";
-	var length = 5;
-	var possible = "abcdefghijklmnopqrstuvwxyz0123456789";
-
-	for (var i = 0; i < length; i++)
-		result += possible
-				.charAt(Math.floor(Math.random() * possible.length));
-
-	return result;
 }

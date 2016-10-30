@@ -1,5 +1,6 @@
-var fs = require('fs');
-var isValid = require('is-valid-path');
+var fs 			= require('fs'),
+ 		isValid = require('is-valid-path'),
+		inArray = require('in-array');
 
 // utils.js
 // ========
@@ -43,15 +44,17 @@ module.exports = {
 		console.log('-- OK -- coping finished.');
 	},
 
-	random : function() {
-		var result = "";
-		var length = 4;
-		var possible = "abcdefghijklmnopqrstuvwxyz0123456789";
+	/**
+	 * Finds an id that is not already used in the given html document
+	 */
+	findUnusedId : function($) {
+		  var usedIds = $('[cms!=""][cms]').map( function(i,elem) {
+		      return $(elem).attr("cms");
+		  }).get();
 
-		for (var i = 0; i < length; i++)
-			result += possible
-					.charAt(Math.floor(Math.random() * possible.length));
-
-		return result;
+		  var newId=0
+		  for(; inArray(usedIds, newId.toString()); newId++){}
+		  return newId;
 	}
+
 };
