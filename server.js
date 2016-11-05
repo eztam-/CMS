@@ -101,7 +101,7 @@ app.get('/:page', function(req, res) {
 // TODO protect endpoint for only authenticated users
 app.put('/:page', function(req, res) {
 	var newContent = req.body;
-	var htmlFileName = __dirname + '/templates/' + req.params.page + '.html';
+	var htmlFileName = __filename + '/templates/' + req.params.page + '.html';
 
 	// backup
 	backup(htmlFileName, req.params.page);
@@ -124,7 +124,7 @@ app.put('/:page', function(req, res) {
 
 backup = function(sourcePath, pageName) {
 	var date = moment().format("YYYY-MM-DD_HHmmss");
-	var targetPath = __dirname + '/templates/backup/' + pageName + date
+	var targetPath = __filename + '/templates/backup/' + pageName + date
 			+ '.html';
 	// copy
 	utils.copy(sourcePath, targetPath, function() {
@@ -143,14 +143,14 @@ updateHtmlContent = function(content, html) {
 
 generateIds = function(pageName) {
 
-	var htmlFileName = __dirname + '/templates/' + pageName + '.html';
+	var htmlFileName = __filename + '/templates/' + pageName + '.html';
 	// update
 	fs.readFile(htmlFileName, 'utf8', function(err, html) {
 		$ = cheerio.load(html, {
 			decodeEntities : false
 		});
 
-		// Add generated ids to cms attributes which have no id yet 
+		// Add generated ids to cms attributes which have no id yet
 		$('[cms=""]').each(function() {
 			$(this).attr("cms", utils.findUnusedId($));
 		});
