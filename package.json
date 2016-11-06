@@ -12,7 +12,6 @@
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.2",
-    "bootstrap": "^3.3.7",
     "cheerio": "^0.22.0",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.3",
@@ -20,7 +19,6 @@
     "express-session": "^1.14.1",
     "in-array": "^0.1.2",
     "is-valid-path": "^0.1.1",
-    "jquery": "^3.1.1",
     "moment": "^2.15.1",
     "morgan": "^1.7.0",
     "nunjucks": "^2.5.2",
