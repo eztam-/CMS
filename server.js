@@ -11,18 +11,14 @@ var express      = require( 'express' ),
 
 // local libs
 var db 			= require('./db'),
-	utils       = require('./utils');
+	  utils   = require('./utils');
 require('./config/passport')(passport); // pass passport for configuration
 
 var port = process.env.PORT || 9000; // Define port to run server on
 
 // Configure Nunjucks
-var _templates = process.env.NODE_PATH ? process.env.NODE_PATH + '/templates'
-		: 'templates';
-
-//njucks.configure(['views', 'views/templates', {})
-
-nunjucks.configure(_templates, {
+// Multiple template paths are possible like: njucks.configure(['views', 'views/templates', {}
+nunjucks.configure( __dirname+'/templates', {
 	autoescape : true,
 	cache : false, // Set true in production
 	express : app,
@@ -34,8 +30,8 @@ app.engine('html', nunjucks.render);
 app.set('view engine', 'html');
 
 
-app.use(express.static('static')); // Directory with static files
-app.use(express.static('node_modules'));
+app.use(express.static(__dirname+'/static')); // Directory with static files
+app.use(express.static(__dirname+'/node_modules'));
 app.use(bodyParser.json()) // Use JSON format for request body mapping
 app.use(morgan('dev')); // log every request to the console
 app.use(flash()); // use connect-flash for flash messages stored in session
@@ -107,7 +103,7 @@ app.get('/:page', function(req, res) {
 // TODO protect endpoint for only authenticated users
 app.put('/:page', function(req, res) {
 	var newContent = req.body;
-	var htmlFileName = __filename + '/templates/' + req.params.page + '.html';
+	var htmlFileName = __dirname + '/templates/' + req.params.page + '.html';
 
 	// backup
 	backup(htmlFileName, req.params.page);
@@ -130,7 +126,7 @@ app.put('/:page', function(req, res) {
 
 backup = function(sourcePath, pageName) {
 	var date = moment().format("YYYY-MM-DD_HHmmss");
-	var targetPath = __filename + '/templates/backup/' + pageName + date
+	var targetPath = __dirname + '/templates/backup/' + pageName + date
 			+ '.html';
 	// copy
 	utils.copy(sourcePath, targetPath, function() {
@@ -149,7 +145,7 @@ updateHtmlContent = function(content, html) {
 
 generateIds = function(pageName) {
 
-	var htmlFileName = __filename + '/templates/' + pageName + '.html';
+	var htmlFileName = __dirname + '/templates/' + pageName + '.html';
 	// update
 	fs.readFile(htmlFileName, 'utf8', function(err, html) {
 		$ = cheerio.load(html, {
