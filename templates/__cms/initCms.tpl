@@ -1,3 +1,6 @@
+
+
+
 {% if isAuth %}
    <script src="tinymce/tinymce.min.js"></script>
    <script src="__cms/cms.js"></script>
