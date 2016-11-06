@@ -19,6 +19,9 @@ var port = process.env.PORT || 9000; // Define port to run server on
 // Configure Nunjucks
 var _templates = process.env.NODE_PATH ? process.env.NODE_PATH + '/templates'
 		: 'templates';
+
+//njucks.configure(['views', 'views/templates', {})
+
 nunjucks.configure(_templates, {
 	autoescape : true,
 	cache : false, // Set true in production
@@ -92,11 +95,14 @@ app.get('/:page', function(req, res) {
 	}
 	res.render(pageName + '.html', {
 		currentPage : pageName,
-		isAuth : !!req.user
+		isAuth : !!req.user,
 	});
 	res.locals.messages = req.flash('message');
 	console.log("USER", req.user);
 });
+
+
+
 
 // TODO protect endpoint for only authenticated users
 app.put('/:page', function(req, res) {

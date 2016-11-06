@@ -1,9 +1,11 @@
 <html>
   <head>
     <meta charset="UTF-8">
-
+    {% include "__cms/initCms.tpl" %}
     <!-- Additional header content that could be passed from each individual page -->
     {% block header %}{% endblock %}
+
+
 
     <link rel="stylesheet" href="bootstrap/dist/css/bootstrap.css">
     <script src="jquery/dist/jquery.js"></script>
@@ -43,10 +45,7 @@
     <!-- Content that is defined in the individual page -->
     {% block content %}{% endblock %}
 
-    <script>
-      // Set the current pages menu entry to active
-      $('.{{currentPage}}').addClass('active')
-    </script>
+
 
   </body>
 </html>
