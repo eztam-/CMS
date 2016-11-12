@@ -1,20 +1,29 @@
+/**
+* This fils is just included when the user is authenticated
+*/
+
+
+
+// Include JQuery with different variable than $ in order to avoud conflicts with other JQuery versions
+// included by the web site
+var cms$ = $.noConflict(true);
+
 // this css selector defines, which elements might be edited.
 // for experimenting you can visit:
 // http://www.w3schools.com/css/tryit.asp?filename=trycss_sel_attribute_value
 var cmsElemSelector = '[cms]';
 // var cmsElemSelector = 'div[cms]'; // if you want to select only div elements
-tinymce
-		.init({
-			selector : cmsElemSelector,
-			inline : true,
-			menubar : false,
-			plugins : 'code textcolor colorpicker link ',
-			toolbar1 : 'formatselect bold italic underline | alignleft aligncenter alignright alignjustify | fontsizeselect',
-			toolbar2 : 'undo redo | forecolor backcolor link unlink | bullist numlist outdent indent | code',
-			force_br_newlines : false,
-			force_p_newlines : false,
-			forced_root_block : '',
-		});
+tinymce.init({
+	selector : cmsElemSelector,
+	inline : true,
+	menubar : false,
+	plugins : 'code textcolor colorpicker link ',
+	toolbar1 : 'formatselect bold italic underline | alignleft aligncenter alignright alignjustify | fontsizeselect',
+	toolbar2 : 'undo redo | forecolor backcolor link unlink | bullist numlist outdent indent | code',
+	force_br_newlines : false,
+	force_p_newlines : false,
+	forced_root_block : '',
+});
 
 var saveContent = function() {
 	var pageContent = {};
@@ -26,7 +35,7 @@ var saveContent = function() {
 	}
 	console.log(pageContent);
 
-	$.ajax({
+	cms$.ajax({
 		url : window.location.href,
 		type : 'PUT',
 		data : JSON.stringify(pageContent),

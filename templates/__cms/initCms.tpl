@@ -1,6 +1,7 @@
 
 {% if isAuth %}
    <script src="cms_internal_libs/tinymce/tinymce.min.js"></script>
+   <script src="cms_internal_libs/jquery/dist/jquery.min.js"></script>
    <script src="__cms/cms.js"></script>
    <link rel="stylesheet" href="__cms/cms.css">
 {% endif %}
