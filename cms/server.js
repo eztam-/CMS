@@ -31,7 +31,7 @@ app.set('view engine', 'html');
 
 
 app.use(express.static(__dirname+'/../static')); // Directory with static files
-app.use(express.static(__dirname+'/node_modules'));
+app.use('/cms_internal_libs', express.static(__dirname+'/node_modules'));
 app.use(bodyParser.json()) // Use JSON format for request body mapping
 app.use(morgan('dev')); // log every request to the console
 app.use(flash()); // use connect-flash for flash messages stored in session
