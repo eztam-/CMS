@@ -1,18 +1,57 @@
-{% extends "layout.html" %}
-{% block header %}
-    <title>Seite 2 Title</title>
-{% endblock %}
-
-{% block content %}
+{% extends "layout.html" %} {% block header %}
+<title>Seite 2 Title</title>
+{% endblock %} {% block content %}
 <div>
 
 	<div class="container">
+
+		<div class="row">
+			<button onclick="saveContent()">Save</button>
+			<div class="col-sm-5 fadeInUp-animated ">
+
+				<div class="text-center">
+					<h4>Sprechzeiten</h4>
+					<table class="table table-hover">
+						<tbody>
+							<tr class="wochentag">
+								<td>Montag</td>
+								<td class="uhrzeit"><div cms>9 - 13 Uhr</div></td>
+								<td class="uhrzeit"><div cms>n. Vereinbarung</div></td>
+							</tr>
+							<tr>
+								<td>Dienstag</td>
+								<td class="uhrzeit"><div cms>9 - 13 Uhr</div></td>
+								<td class="uhrzeit"><div cms>n. Vereinbarung</div></td>
+							</tr>
+							<tr>
+								<td>Mittwoch</td>
+								<td class="uhrzeit"><div cms>9 - 13 Uhr</div></td>
+								<td class="uhrzeit"><div cms></div></td>
+							</tr>
+							<tr>
+								<td>Donnerstag</td>
+								<td class="uhrzeit"><div cms>8 - 13 Uhr</div></td>
+								<td class="uhrzeit"><div cms>15 - 18:30</div></td>
+							</tr>
+							<tr>
+								<td>Freitag</td>
+								<td class="uhrzeit"><div cms>8 - 12:30</div></td>
+								<td class="uhrzeit"></div></td>
+							</tr>
+						</tbody>
+					</table>
+
+				</div>
+
+			</div>
+		</div>
+
 		<div class="row">
 			<div class="col-lg-10 col-lg-offset-1 text-center" cms>
 				<h2>In Arztpraxen gibt es oft viel Veränderung</h2>
-				<h6>Geänderte
-					Öffungszeiten, Urlaub oder neue Mitarbeiter können dazu führen,
-					dass Sie Inhalte Ihrer Homepage aktualisieren möchten.</h6>
+				<h6>Geänderte Öffungszeiten, Urlaub oder neue Mitarbeiter
+					können dazu führen, dass Sie Inhalte Ihrer Homepage aktualisieren
+					möchten.</h6>
 			</div>
 		</div>
 
@@ -27,9 +66,10 @@
 				<p class="text-muted text-justify">Pi pa po mäßig.</p>
 			</div>
 
-			<div class="col-md-4 col-sm-6" cms>
+			<div class="col-md-4 col-sm-6">
 				<h4 class="text-blue service-heading">Intuitiv 2</h4>
-				<p class="text-muted text-justify">giug hoi iljfilsijdf sö fldshdsj.</p>
+				<p class="text-muted text-justify">giug hoi iljfilsijdf sö
+					fldshdsj.</p>
 			</div>
 
 		</div>
