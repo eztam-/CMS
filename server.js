@@ -102,26 +102,35 @@ app.get('/:page', function(req, res) {
 
 // TODO protect endpoint for only authenticated users
 app.put('/:page', function(req, res) {
-	var newContent = req.body;
-	var htmlFileName = __dirname + '/templates/' + req.params.page + '.html';
 
-	// backup
-	backup(htmlFileName, req.params.page);
+	if (req.user) { // TODO Auth check should be done in a more generic way
+	  
+		var newContent = req.body;
+		var htmlFileName = __dirname + '/templates/' + req.params.page + '.html';
 
-	// update
-	fs.readFile(htmlFileName, 'utf8', function(err, html) {
-		var newHtml = updateHtmlContent(newContent, html)
+		// backup
+		backup(htmlFileName, req.params.page);
 
-		fs.writeFile(htmlFileName, newHtml, function(err) {
-			if (err) {
-				res.status(400);
-				return console.log(err);
-			}
+		// update
+		fs.readFile(htmlFileName, 'utf8', function(err, html) {
+			var newHtml = updateHtmlContent(newContent, html)
+
+			fs.writeFile(htmlFileName, newHtml, function(err) {
+				if (err) {
+					res.status(400);
+					return console.log(err);
+				}
+			})
+			console.log("-- OK -- The file was saved!");
 		})
-		console.log("-- OK -- The file was saved!");
-	})
+		res.send('');
+		res.status(200);
+		return;
+	}
+	res.status(401);
 	res.send('');
-	res.status(200);
+	return;
+
 });
 
 backup = function(sourcePath, pageName) {
