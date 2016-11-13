@@ -62,7 +62,7 @@ app.use(passport.session());
 
 app.all(CONFIG.forceHttpsPaths, function(req, res, next){
   if(!req.secure){
-      res.redirect('https://' + req.hostname + req.url);
+      res.redirect('https://' + req.get('host') + req.url);
       return;
   }
   return next();
@@ -70,7 +70,7 @@ app.all(CONFIG.forceHttpsPaths, function(req, res, next){
 
 app.all(CONFIG.forceHttpsPathsAuth, function(req, res, next){
   if(req.user && !req.secure){
-      res.redirect('https://' + req.hostname + req.url);
+      res.redirect('https://' + req.get('host') + req.url);
       return;
   }
   return next();
