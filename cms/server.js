@@ -10,9 +10,9 @@ var express      = require( 'express' ),
     passport     = require('passport');
 // local libs
 var db 			= require('./db'),
-	  utils   = require('./utils');
+	  utils   = require('./utils'),
+    CONFIG  = require('./config/conf');
 
-var CONFIG = process.argv[2] === 'DEV_SERVER' ? require('./config/conf_dev') : require('./config/conf');
 require('./config/passport')(passport); // pass passport for configuration
 
 var port = process.env.PORT || 9000; // Define port to run server on
@@ -57,24 +57,6 @@ app.use(passport.session());
 //}), function(req, res) {
 //	res.redirect('/'); // TODO externalize post login page
 //});
-
-
-
-app.all(CONFIG.forceHttpsPaths, function(req, res, next){
-  if(!req.secure){
-      res.redirect('https://' + req.get('host') + req.url);
-      return;
-  }
-  return next();
-});
-
-app.all(CONFIG.forceHttpsPathsAuth, function(req, res, next){
-  if(req.user && !req.secure){
-      res.redirect('https://' + req.get('host') + req.url);
-      return;
-  }
-  return next();
-});
 
 
 
