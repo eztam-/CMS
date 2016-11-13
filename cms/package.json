@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "test",
-    "start": "node server.js"
+    "start": "node server.js DEV_SERVER"
   },
   "author": "medicus-webicus.de",
   "license": "",

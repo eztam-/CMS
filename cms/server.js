@@ -8,17 +8,18 @@ var express      = require( 'express' ),
     flash        = require('connect-flash'),
     morgan       = require('morgan'),
     passport     = require('passport');
-
 // local libs
 var db 			= require('./db'),
 	  utils   = require('./utils');
+
+var CONFIG = process.argv[2] === 'DEV_SERVER' ? require('./config/conf_dev') : require('./config/conf');
 require('./config/passport')(passport); // pass passport for configuration
 
 var port = process.env.PORT || 9000; // Define port to run server on
 
 // Configure Nunjucks
 // Multiple template paths are possible like: njucks.configure(['views', 'views/templates', {}
-nunjucks.configure( __dirname+'/../templates', {
+nunjucks.configure( __dirname + CONFIG.templatesDir, {
 	autoescape : true,
 	cache : false, // Set true in production
 	express : app,
@@ -30,7 +31,7 @@ app.engine('html', nunjucks.render);
 app.set('view engine', 'html');
 
 
-app.use(express.static(__dirname+'/../static')); // Directory with static files
+app.use(express.static(__dirname + CONFIG.staticDir)); // Directory with static files
 app.use('/cms_internal_libs', express.static(__dirname+'/node_modules'));
 app.use(bodyParser.json()) // Use JSON format for request body mapping
 app.use(morgan('dev')); // log every request to the console
@@ -57,17 +58,37 @@ app.use(passport.session());
 //	res.redirect('/'); // TODO externalize post login page
 //});
 
+
+
+app.all(CONFIG.forceHttpsPaths, function(req, res, next){
+  if(!req.secure){
+      res.redirect('https://' + req.hostname + req.url);
+      return;
+  }
+  return next();
+});
+
+app.all(CONFIG.forceHttpsPathsAuth, function(req, res, next){
+  if(req.user && !req.secure){
+      res.redirect('https://' + req.hostname + req.url);
+      return;
+  }
+  return next();
+});
+
+
+
 // process the login form
 app.post('/login', passport.authenticate('local-login', {
-    successRedirect : '/home', // redirect to the secure profile section
-    failureRedirect : '/login', // redirect back to the signup page if there is an error
+    successRedirect : CONFIG.loginSuccessPage,
+    failureRedirect : CONFIG.loginFailedPage,
     failureFlash : true // allow flash messages
 }));
 
 
 app.get('/logout', function(req, res) {
 	req.logout();
-	res.redirect('/'); // TODO externalize post logout page
+	res.redirect(CONFIG.postLogoutPage);
 });
 
 // Default landing page
@@ -104,9 +125,9 @@ app.get('/:page', function(req, res) {
 app.put('/:page', function(req, res) {
 
 	if (req.user) { // TODO Auth check should be done in a more generic way
-	  
+
 		var newContent = req.body;
-		var htmlFileName = __dirname + '/../templates/' + req.params.page + '.html';
+		var htmlFileName = __dirname + CONFIG.templatesDir + '/' + req.params.page + '.html';
 
 		// backup
 		backup(htmlFileName, req.params.page);
@@ -135,7 +156,7 @@ app.put('/:page', function(req, res) {
 
 backup = function(sourcePath, pageName) {
 	var date = moment().format("YYYY-MM-DD_HHmmss");
-	var targetPath = __dirname + '/../templates/backup/' + pageName + date
+	var targetPath = __dirname + CONFIG.templatesDir + '/backup/' + pageName + date
 			+ '.html';
 	// copy
 	utils.copy(sourcePath, targetPath, function() {
@@ -154,7 +175,7 @@ updateHtmlContent = function(content, html) {
 
 generateIds = function(pageName) {
 
-	var htmlFileName = __dirname + '/../templates/' + pageName + '.html';
+	var htmlFileName = __dirname + CONFIG.templatesDir + '/' + pageName + '.html';
 	// update
 	fs.readFile(htmlFileName, 'utf8', function(err, html) {
 		$ = cheerio.load(html, {
