@@ -43,8 +43,6 @@
 	outline: 1px solid #c0c0c0 !important;;
 	border-radius: 0px;
 	background: #fff;
-	-webkit-box-shadow: 0px 0px 28px 0px rgba(0, 0, 0, 0.61);
-	-moz-box-shadow: 0px 0px 28px 0px rgba(0, 0, 0, 0.61);
 	box-shadow: 0px 0px 28px 0px rgba(0, 0, 0, 0.61);
 }
 
@@ -69,4 +67,9 @@
 	-ms-backface-visibility: hidden;
 	-o-backface-visibility: hidden;
 	backface-visibility: hidden;
+}
+
+.cms_dark_bg .mce-edit-focus{
+		background: rgba(0, 0, 0, 0.5);
+		box-shadow: 0px 0px 28px 4px rgba(255, 255, 255, 0.91);
 }
