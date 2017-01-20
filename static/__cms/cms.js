@@ -49,3 +49,17 @@ var saveContent = function() {
 	});
 
 }
+
+/* 
+// Hide and show elements with lang attribute according to the current language
+var LANG="de";
+
+cms$('[lang]').each(function() {
+    if( cms$(this).attr('lang') === LANG){
+        cms$(this).css('display', '');
+    }else{
+        cms$(this).css('display', 'none');
+    }
+});
+
+*/
