@@ -39,6 +39,9 @@
       </div>
     </nav>
 
+    {% if isAuth %}
+        <button onclick="saveContent()">Save</button>
+    {% endif %}
 
     <!-- Content that is defined in the individual page -->
     {% block content %}{% endblock %}
