@@ -16,13 +16,18 @@
   <body style="padding-top:70px;">
     <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
-		<!-- {% if isAuth %} -->
-        <div class="navbar-header">
-          <a class="navbar-brand" href="#">CMS: Editieren</a>
+        <div class="navbar-header" style="margin-right: 15px;">
+          <a class="navbar-bran" href="/?lang=de">de</a>
+          <a class="navbar-bran" href="/?lang=en">en</a>
         </div>
+	<!-- {% if isAuth %} -->
+          <div class="navbar-header">
+            <a class="navbar-brand" href="#">CMS: Editieren</a>
+          </div>
         <!-- {% endif %} -->
         <div id="navbar">
           <ul class="nav navbar-nav navbar-right">
+
             <li class="home"><a href="/">Home</a></li>
             <li class="page2"><a href="page2">Page 2</a></li>
             {% if isAuth %}
@@ -31,6 +36,7 @@
                 <li class="login"><a href="/login">Login</a></li>
             {% endif %}
           </ul>
+
         </div><!--/.nav-collapse -->
       </div>
     </nav>

@@ -76,7 +76,11 @@ app.get('/logout', function(req, res) {
 // Default landing page
 // TODO The default page should be set as constant anywhere
 app.get('/', function(req, res) {
-	res.redirect('/home');
+    if(req.query.lang){
+        res.redirect('/home?lang='+req.query.lang);
+    }else{
+  	    res.redirect('/home');
+    }
 });
 
 // Respond to all GET requests by rendering relevant page using Nunjucks
@@ -95,6 +99,8 @@ app.get('/:page', function(req, res) {
 	res.render(pageName + '.html', {
 		currentPage : pageName,
 		isAuth : !!req.user,
+    language : req.query.lang ? req.query.lang : CONFIG.defaultLanguage,
+    defaultLanguage : CONFIG.defaultLanguage,
 	});
 	res.locals.messages = req.flash('message');
 	console.log("USER", req.user);
@@ -118,7 +124,7 @@ app.put('/:page', function(req, res) {
 		fs.readFile(htmlFileName, 'utf8', function(err, html) {
 			var newHtml = updateHtmlContent(newContent, html)
 
-			fs.writeFile(htmlFileName, newHtml, function(err) {
+			fs.writeFile(htmlFileName, newHtml, 'utf8',function(err) {
 				if (err) {
 					res.status(400);
 					return console.log(err);
