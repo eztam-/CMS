@@ -11,7 +11,7 @@
 <style>
   {% for l in supportedLanguages %}
       {% if l !== language  %}
-          :lang({{language}}) {
+          :lang({{l}}) {
               display: none !important;
           }
       {% endif %}
