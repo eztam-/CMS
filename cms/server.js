@@ -101,6 +101,7 @@ app.get('/:page', function(req, res) {
 		isAuth : !!req.user,
     language : req.query.lang ? req.query.lang : CONFIG.defaultLanguage,
     defaultLanguage : CONFIG.defaultLanguage,
+    supportedLanguages: CONFIG.supportedLanguages
 	});
 	res.locals.messages = req.flash('message');
 	console.log("USER", req.user);

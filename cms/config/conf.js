@@ -7,5 +7,6 @@ module.exports = {
   loginFailedPage:  '/login',
   templatesDir:     '/../templates',  // The path to the templates directory (relative to server.js)
   staticDir:        '/../static',      // The path to the static directory (relative to server.js)
-  defaultLanguage:  'de'
+  defaultLanguage:  'de',
+  supportedLanguages:['de','en']
 };

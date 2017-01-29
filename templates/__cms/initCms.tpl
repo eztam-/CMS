@@ -9,12 +9,13 @@
 
 <!-- Style for showing the selected language elements only -->
 <style>
-    [lang]{
-        display: none;
-    }
-    :lang({{language}}) {
-        display: inherit; /* TODO This is a dirty solution, since the visibility depends from the parent*/
-    }
+  {% for l in supportedLanguages %}
+      {% if l !== language  %}
+          :lang({{language}}) {
+              display: none !important;
+          }
+      {% endif %}
+  {% endfor %}
 </style>
 
 <!-- Initialization of the global CMS constants -->
