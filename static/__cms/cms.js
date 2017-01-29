@@ -28,6 +28,11 @@ function addLanguageParamToHrefs() {
 cms$(document).ready(addLanguageParamToHrefs);
 
 
+/** Marks the language button of the currently selected language as active */
+cms$(document).ready(function(){
+		cms$( ".lang-button-" + CMS.language ).addClass( "lang-button-active" );
+});
+
 
 
 

@@ -11,14 +11,18 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
 
-
+    <style>
+        .lang-button-active{
+          font-weight: bold;
+        }
+    </style>
   </head>
   <body style="padding-top:70px;">
     <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header" style="margin-right: 15px;">
-          <a class="navbar-bran" href="/?lang=de">de</a>
-          <a class="navbar-bran" href="/?lang=en">en</a>
+          <a class="navbar-bran lang-button-de" href="/?lang=de">de</a>
+          <a class="navbar-bran lang-button-en" href="/?lang=en">en</a>
         </div>
 	<!-- {% if isAuth %} -->
           <div class="navbar-header">
@@ -39,6 +43,9 @@
       </div>
     </nav>
 
+    {% if isAuth %}
+        <button onclick="saveContent()">Save</button>
+    {% endif %}
 
     <!-- Content that is defined in the individual page -->
     {% block content %}{% endblock %}
