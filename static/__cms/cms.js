@@ -34,6 +34,42 @@ cms$(document).ready(function(){
 });
 
 
+/**
+ * Checks the current page for CMS markup errors and adds error messages to the DOM if errors exist.
+ */
+// TODO This method requires bootstrap.css since it is using bootstrap classes. It schould also work without bootstrap!
+function checkCmsMarkupErrors(){
+		// Check for nested cms elements
+		var nestedCmsElems = cms$('[cms]').find('[cms]')
+				.prepend(createErrorMessage('<b>Error:</b> Nested elements with cms attributes are not allowed!'))
+				.addClass( "alert alert-warning" );
+
+		// Check for nested lang elements
+		var nestedLangElems = cms$('[lang]').find('[lang]')
+				.prepend(createErrorMessage('<b>Error:</b> Nested elements with lang attributes are not allowed!'))
+				.addClass( "alert alert-warning" );
+
+		// Check for elements with cms attribute but without lang tag
+		var cmsElemsWithoutLang = cms$('[cms]').not('[lang]')
+				.prepend(createErrorMessage('<b>Error:</b> The element has a cms attribute but no lang attribute.'))
+				.addClass( "alert alert-warning");
+
+		// Check for elements with lang attribute within a cms element
+		var langElemsInCms = cms$('[cms]').find('[lang]')
+				.prepend(createErrorMessage('<b>Error:</b> No elements with lang attribute are allowed within a cms element'))
+				.addClass( "alert alert-warning" );
+
+		// If there are errors, add a generic error message at the beginning of the page
+		if(nestedCmsElems.length >0 || cmsElemsWithoutLang.length > 0 || langElemsInCms.lengt >0 || nestedLangElems.length >0){
+				var message= "There are CMS errors in the current page. The related elements are highlighted and annotated below.";
+				cms$('body').prepend(createErrorMessage(message));
+		}
+
+		function createErrorMessage(errorMessage){
+				return '<div class="alert alert-danger">'+errorMessage+'</div>'
+		}
+}
+cms$(document).ready(checkCmsMarkupErrors);
 
 
 
