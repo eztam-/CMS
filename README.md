@@ -42,5 +42,5 @@ The i18n concept underlies some rules described in the following. If one of this
 ####Rules:
 * Nested elements with cms attributes are not allowed
 * Nested elements with lang attributes are not allowed
-* Elements with cms attribute but without lang tag are not allowed
+* Elements with cms attribute but without lang attribute are not allowed
 * Elements with a lang attribute are not allowed within a cms element
