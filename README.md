@@ -36,3 +36,11 @@ The language of a specific page could simply be changed via attaching the GET pa
     <a class="lang-button-de" href="/?lang=de">DE</a>
     <a class="lang-button-en" href="/?lang=en">EN</a>
 ```
+
+The i18n concept underlies some rules described in the following. If one of this rules is violated at any location within a HTML document, then the related document is annotated with an error message that is shown directly in the website.
+
+####Rules:
+* Nested elements with cms attributes are not allowed
+* Nested elements with lang attributes are not allowed
+* Elements with cms attribute but without lang tag are not allowed
+* Elements with a lang attribute are not allowed within a cms element

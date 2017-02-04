@@ -59,6 +59,9 @@ function checkCmsMarkupErrors(){
 				.prepend(createErrorMessage('<b>Error:</b> No elements with lang attribute are allowed within a cms element'))
 				.addClass( "alert alert-warning" );
 
+				// TODO find duplicat cms ID's since this could easily happen while working with a VCS
+
+
 		// If there are errors, add a generic error message at the beginning of the page
 		if(nestedCmsElems.length >0 || cmsElemsWithoutLang.length > 0 || langElemsInCms.lengt >0 || nestedLangElems.length >0){
 				var message= "There are CMS errors in the current page. The related elements are highlighted and annotated below.";
