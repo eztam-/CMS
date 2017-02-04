@@ -10,7 +10,7 @@
 <!-- Style for showing the selected language elements only -->
 <style>
   {% for l in supportedLanguages %}
-      {% if l !== language  %}
+      {% if l !== language and l !== 'all' %}
           :lang({{l}}) {
               display: none !important;
           }
