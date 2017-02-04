@@ -30,7 +30,7 @@ Translated elements needs to be annotated with the HTML lang attribute whereby t
     <h3 lang="all" cms="3">Dr. Fu Bar</h3>
 ```
 
-The language of a specific page could simply be changed via attaching the GET param ?lang=de to the URL. CMS is automatically adding this param to all <a href=""> elements in the document so if the language is once selected it will not change when the user klicks on a link. Adding toggle buttons for changing the language to your page could simply be done like this:
+The language of a specific page could simply be changed via attaching the GET param ?lang=de to the URL. CMS is automatically adding this param to all `<a href="">` elements in the document so if the language is once selected it will not change when the user klicks on a link. Adding toggle buttons for changing the language to your page could simply be done like this:
 
 ```html
     <a class="lang-button-de" href="/?lang=de">DE</a>
