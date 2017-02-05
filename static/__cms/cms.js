@@ -41,29 +41,41 @@ cms$(document).ready(function(){
 function checkCmsMarkupErrors(){
 		// Check for nested cms elements
 		var nestedCmsElems = cms$('[cms]').find('[cms]')
-				.prepend(createErrorMessage('<b>Error:</b> Nested elements with cms attributes are not allowed!'))
-				.addClass( "alert alert-warning" );
+				.addClass( "alert alert-warning" )
+				.before(createErrorMessage('<b>Error:</b> Nested elements with cms attributes are not allowed!'));
 
 		// Check for nested lang elements
 		var nestedLangElems = cms$('[lang]').find('[lang]')
-				.prepend(createErrorMessage('<b>Error:</b> Nested elements with lang attributes are not allowed!'))
-				.addClass( "alert alert-warning" );
+				.addClass( "alert alert-warning" )
+				.before(createErrorMessage('<b>Error:</b> Nested elements with lang attributes are not allowed!'));
 
 		// Check for elements with cms attribute but without lang tag
 		var cmsElemsWithoutLang = cms$('[cms]').not('[lang]')
-				.prepend(createErrorMessage('<b>Error:</b> The element has a cms attribute but no lang attribute.'))
-				.addClass( "alert alert-warning");
+				.addClass( "alert alert-warning")
+				.before(createErrorMessage('<b>Error:</b> The element has a cms attribute but no lang attribute.'));
 
 		// Check for elements with lang attribute within a cms element
 		var langElemsInCms = cms$('[cms]').find('[lang]')
-				.prepend(createErrorMessage('<b>Error:</b> No elements with lang attribute are allowed within a cms element'))
-				.addClass( "alert alert-warning" );
+				.addClass( "alert alert-warning" )
+				.before(createErrorMessage('<b>Error:</b> No elements with lang attribute are allowed within a cms element'));
 
-				// TODO find duplicat cms ID's since this could easily happen while working with a VCS
+		// Check for duplicate cms id's
+		var duplicateCmsIdFound = false;
+		var cmsElems = {};
+		cms$('[cms]').each(function(){
+		    var cmsId = cms$(this).attr('cms');
+		    if(cmsId !== '' && cmsElems[cmsId]){
+						cms$(this).addClass( "alert alert-warning" )
+		    		.before(createErrorMessage('<b>Error:</b> Duplicate cms id ' + cmsId + ' !'));
+						duplicateCmsIdFound = true;
+		    }
+		    cmsElems[cmsId] = true;
+		});
+
 
 
 		// If there are errors, add a generic error message at the beginning of the page
-		if(nestedCmsElems.length >0 || cmsElemsWithoutLang.length > 0 || langElemsInCms.lengt >0 || nestedLangElems.length >0){
+		if(nestedCmsElems.length >0 || cmsElemsWithoutLang.length > 0 || langElemsInCms.lengt >0 || nestedLangElems.length >0 || duplicateCmsIdFound ){
 				var message= "There are CMS errors in the current page. The related elements are highlighted and annotated below.";
 				cms$('body').prepend(createErrorMessage(message));
 		}

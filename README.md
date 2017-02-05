@@ -18,18 +18,17 @@ On the client side all variables are accessible via the globally defined `CMS` o
     console.log("The current page is: " + CMS.currentPageName);
 ```
 
-#### language variable
+**_language_ variable**
 The currently selected language code. If no language is selected, then the value is equal to the `defaultLanguage`. For further information read section <b>i18n</b>.
 
-#### defaultLanguage variable
+**_defaultLanguage_ variable**
 The default language can be configured in the cms/conf/conf.js. For further information read section <b>i18n</b>.
 
-#### isAuthenticated variable
+**_isAuthenticated_ variable**
 Is true if the user is authenticated. Otherwise false. For further information read section <b>Authentication</b>.
 
-#### currentPageName variable
+**_currentPageName_ variable**
 This variable contains the name of the current page, that would be `home` e.g for a page with the URL http://YOUR_DOMAIN/home.
-
 The variable `currentPageName` can also be used as a CSS class. This is useful if you want to highlight the currently active navigation menu entry with a special CSS style. The CMS is adding automatically an additional class `active` to all elements that have a class matching the `currentPageName`. In the following code example of a navigation bar the menu entry of the current page will get the class `active`.
 
 ```html
@@ -83,7 +82,7 @@ The language of a specific page could simply be changed via attaching the GET pa
 
 The i18n concept underlies some rules described in the following. If one of this rules is violated at any location within a HTML document, then the related document is annotated with an error message that is shown directly in the website.
 
-####Rules:
+#### Rules:
 * Nested elements with cms attributes are not allowed
 * Nested elements with lang attributes are not allowed
 * Elements with cms attribute but without lang attribute are not allowed
