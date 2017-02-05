@@ -28,7 +28,7 @@ The default language can be configured in the cms/conf/conf.js. For further info
 Is true if the user is authenticated. Otherwise false. For further information read section <b>Authentication</b>.
 
 #### currentPageName variable
-This variable contains the name of the current page, that would be `home` e.g for a page with the URL http://your-domain.com/<b>home</b>.
+This variable contains the name of the current page, that would be `home` e.g for a page with the URL <span>http://your-domain.com/</span><b>home</b>.
 
 The variable `currentPageName` can also be used as a CSS class. This is useful if you want to highlight the currently active navigation menu entry with a special CSS style. The CMS is adding automatically an additional class `active` to all elements that have a class matching the `currentPageName`. In the following code example of a navigation bar the menu entry of the current page will get the class `active`.
 
