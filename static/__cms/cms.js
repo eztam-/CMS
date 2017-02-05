@@ -18,10 +18,10 @@ function addLanguageParamToHrefs() {
 		}
 		cms$('a[href]').each(function() {
 				var href = cms$(this).attr('href');
-				// TODO The whole if block and the expression itself should be reconsidered
-				if( href.search('lang=') === -1){
+				// Add the lang param to all hrefs except anchor links on the current page
+				if( href.search(CMS.currentPageName+'#') === -1 && 	href.search('lang=') === -1 ){
 						var separator = (href.indexOf('?') != -1 ? "&" : "?");
-						cms$(this).attr('href',href + separator + 'lang=' + CMS.language);
+						cms$(this).attr('href', href + separator + 'lang=' + CMS.language);
 				}
 		});
 }

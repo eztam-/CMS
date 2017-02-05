@@ -80,6 +80,13 @@ The language of a specific page could simply be changed via attaching the GET pa
     <a class="lang-button-en" href="/?lang=en">EN</a>
 ```
 
+**Note!** Don't add the lang parameter manually to links ton an anchor on the same page like in the following example since it will cause the page to reload in most browsers.
+```html
+    <!-- Don't do this! -->
+    <a lang="de" href="#contact?lang=de">Kontakt</a>
+    <a lang="en" href="#contact?lang=en">Contact</a>
+```
+
 The i18n concept underlies some rules described in the following. If one of this rules is violated at any location within a HTML document, then the related document is annotated with an error message that is shown directly in the website.
 
 #### Rules:
