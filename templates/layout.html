@@ -24,7 +24,7 @@
           <a class="navbar-bran lang-button-de" href="/?lang=de">de</a>
           <a class="navbar-bran lang-button-en" href="/?lang=en">en</a>
         </div>
-	<!-- {% if isAuth %} -->
+	<!-- {% if isAuthenticated %} -->
           <div class="navbar-header">
             <a class="navbar-brand" href="#">CMS: Editieren</a>
           </div>
@@ -33,8 +33,8 @@
           <ul class="nav navbar-nav navbar-right">
             <li class="home"><a href="/">Home</a></li>
             <li class="page2"><a href="page2">Page 2</a></li>
-            {% if isAuth %}
-                <li><a href="/logout">Logout</a>
+            {% if isAuthenticated %}
+                <li><a href="/logout">Logout</a></li>
             {% else %}
                 <li class="login"><a href="/login">Login</a></li>
             {% endif %}
@@ -43,7 +43,7 @@
       </div>
     </nav>
 
-    {% if isAuth %}
+    {% if isAuthenticated %}
         <button onclick="saveContent()">Save</button>
     {% endif %}
 

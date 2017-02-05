@@ -97,8 +97,8 @@ app.get('/:page', function(req, res) {
 		}
 	}
 	res.render(pageName + '.html', {
-		currentPage : pageName,
-		isAuth : !!req.user,
+		currentPageName : pageName,
+		isAuthenticated : !!req.user,
     language : req.query.lang ? req.query.lang : CONFIG.defaultLanguage,
     defaultLanguage : CONFIG.defaultLanguage,
     supportedLanguages: CONFIG.supportedLanguages

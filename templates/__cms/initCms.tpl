@@ -23,12 +23,12 @@
     var CMS = {
         language : '{{language}}',
         defaultLanguage : '{{defaultLanguage}}',
-        currentPageName : '{{currentPage}}',
-        isAuthenticated : {{isAuth}}
+        currentPageName : '{{currentPageName}}',
+        isAuthenticated : {{isAuthenticated}}
     }
 </script>
 
-{% if isAuth %}
+{% if isAuthenticated %}
    <script src="cms_internal_libs/tinymce/tinymce.min.js"></script>
    <link rel="stylesheet" href="__cms/cms.css">
 {% endif %}
