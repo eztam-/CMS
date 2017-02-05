@@ -3,11 +3,66 @@
 ## Basic concept
  TODO
 
+## Variables
+The CMS provides some variables that can be used on the server side in the templates via nunjucks or on the client side via Javascript. On the server side the variables could be used in the typically nunjucks style like:
+```javascript
+    {% if isAuth %}
+        <a href="/logout">Logout</a>
+    {% else %}
+        <a href="/login">Login</a>
+    {% endif %}
+```
+
+On the client side all variables are accessible via the globally defined `CMS` object like this:
+```javascript
+    console.log("The current page is: " + CMS.currentPageName);
+```
+
+#### Overview
+
+| Client side           | Server side         |                                  |
+| Javascript variables  | nunjucks variables  |                                  |
+|:---------------------:|:-------------------:|----------------------------------|
+| language              | language            | The currently selected language  |
+| defaultLanguage       | defaultLanguage     | The default language             |
+| currentPageName       | currentPage         | Is home for e.g. domain.com/home |
+| isAuthenticated       | isAuth              | True if the user is authenticated|
+
+
+#### language
+The currently selected language code. If no language is selected, then the value is equal to the `defaultLanguage`. For further information read section <b>i18n</b>.
+
+#### defaultLanguage
+The default language can be configured in the cms/conf/conf.js. For further information read section <b>i18n</b>.
+
+#### isAuthenticated
+Is true if the user is authenticated. Otherwise false. For further information read section <b>Authentication</b>.
+
+#### currentPageName
+This variable contains the name of the current page, that would be `home` e.g for a page with the URL http://your-domain.com/<b>home</b>.
+
+The variable `currentPageName` can also be used as a CSS class. This is useful if you want to highlight the currently active navigation menu entry with a special CSS style. The CMS is adding automatically an additional class `active` to all elements that have a class matching the `currentPageName`. In the following code example of a navigation bar the menu entry of the current page will get the class `active`.
+
+```html
+      <ul class="nav navbar-nav">
+        <li class="home"><a href="/">Home</a></li><!-- Notice! The page root is always redirected to /home-->
+        <li class="info"><a href="info">Info</a></li>
+      </ul>
+```
+
 ## Authentication
-  TODO
+
+TODO this needs to be documented in detail
+
+```javascript
+    {% if isAuth %}
+        <a href="/logout">Logout</a>
+    {% else %}
+        <a href="/login">Login</a>
+    {% endif %}
+```
 
 ## i18n
-
 
 Enabling multiple language support can easily be done by adjusting the configuration file cms/conf/conf.js like in the following example:
 
