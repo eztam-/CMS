@@ -3,6 +3,8 @@
 ## Basic concept
  TODO
 
+## Template inheritance
+
 ## Variables
 ### How to access variables
 The CMS provides some variables that can be used on the server side in the templates via nunjucks or on the client side via Javascript. On the server side the variables could be used in the typically nunjucks style like:
