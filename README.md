@@ -19,16 +19,20 @@ On the client side all variables are accessible via the globally defined `CMS` o
     console.log("The current page is: " + CMS.currentPageName);
 ```
 ### List of variables
-**_language_ variable**
+**_language_**
+
 The currently selected language code. If no language is selected, then the value is equal to the `defaultLanguage`. For further information read section *i18n*.
 
-**_defaultLanguage_ variable**
+**_defaultLanguage_**
+
 The default language can be configured in the cms/conf/conf.js. For further information read section *i18n*.
 
-**_isAuthenticated_ variable**
+**_isAuthenticated_**
+
 Is true if the user is authenticated. Otherwise false. For further information read section *Authentication*.
 
-**_currentPageName_ variable**
+**_currentPageName_**
+
 This variable contains the name of the current page, that would be `home` e.g for a page with the URL http://YOUR_DOMAIN/home.
 The variable `currentPageName` can also be used as a CSS class. This is useful if you want to highlight the currently active navigation menu entry with a special CSS style. The CMS is adding automatically an additional class `active` to all elements that have a class matching the `currentPageName`. In the following code example of a navigation bar the menu entry of the current page will get the class `active`.
 
