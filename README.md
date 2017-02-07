@@ -4,6 +4,7 @@
  TODO
 
 ## Variables
+### How to access variables
 The CMS provides some variables that can be used on the server side in the templates via nunjucks or on the client side via Javascript. On the server side the variables could be used in the typically nunjucks style like:
 ```javascript
     {% if isAuthenticated %}
@@ -17,9 +18,9 @@ On the client side all variables are accessible via the globally defined `CMS` o
 ```javascript
     console.log("The current page is: " + CMS.currentPageName);
 ```
-
+### List of variables
 **_language_ variable**
-The currently selected language code. If no language is selected, then the value is equal to the `defaultLanguage`. For further information read section <b>i18n</b>.
+The currently selected language code. If no language is selected, then the value is equal to the `defaultLanguage`. For further information read section *i18n*.
 
 **_defaultLanguage_ variable**
 The default language can be configured in the cms/conf/conf.js. For further information read section <b>i18n</b>.
