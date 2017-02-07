@@ -23,10 +23,10 @@ On the client side all variables are accessible via the globally defined `CMS` o
 The currently selected language code. If no language is selected, then the value is equal to the `defaultLanguage`. For further information read section *i18n*.
 
 **_defaultLanguage_ variable**
-The default language can be configured in the cms/conf/conf.js. For further information read section <b>i18n</b>.
+The default language can be configured in the cms/conf/conf.js. For further information read section *i18n*.
 
 **_isAuthenticated_ variable**
-Is true if the user is authenticated. Otherwise false. For further information read section <b>Authentication</b>.
+Is true if the user is authenticated. Otherwise false. For further information read section *Authentication*.
 
 **_currentPageName_ variable**
 This variable contains the name of the current page, that would be `home` e.g for a page with the URL http://YOUR_DOMAIN/home.
