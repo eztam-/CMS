@@ -142,7 +142,7 @@ if(CMS.isAuthenticated){
 						contentType : 'application/json',
 						success : function(result) {
 							 setContentDirty(false);
-							// TODO Show notification
+							 alertify.notify( 'Successfully saved', 'success', [3]);
 						},
 						error : function(jqXHR, textStatus, errorThrown) {
 								alert("Error! Could not save content");

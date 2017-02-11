@@ -2,6 +2,8 @@
 <html>
     <head>
       <script src="cms_internal_libs/jquery/dist/jquery.min.js"></script>
+      <script src="cms_internal_libs/alertifyjs/build/alertify.min.js"></script>
+
       <script>
           // Include JQuery with different variable than $ in order to avoud conflicts with other JQuery versions
           // included by the web site
@@ -32,6 +34,7 @@
 
       {% if isAuthenticated %}
          <script src="cms_internal_libs/tinymce/tinymce.min.js"></script>
+         <link rel="stylesheet" href="cms_internal_libs/alertifyjs/build/css/alertify.min.css">
          <link rel="stylesheet" href="__cms/cms.css">
       {% endif %}
 
