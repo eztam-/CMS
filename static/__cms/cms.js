@@ -105,7 +105,26 @@ if(CMS.isAuthenticated){
 				force_br_newlines : false,
 				force_p_newlines : false,
 				forced_root_block : '',
+				setup : function(editor) {
+							editor.on('change', function(){ setContentDirty(true);});
+				},
 		});
+
+		/**
+		*  Is calles when the content has been changed or saved.
+		*/
+		function setContentDirty(isDirty){
+			// TODO Enable/disable the save button
+			if(isDirty) {
+					if(!document.title.startsWith('*')){
+							document.title = '* '+ document.title;
+					}
+			}else {
+					if(document.title.startsWith('* ')){
+							document.title = document.title.substring(2);
+					}
+			}
+		}
 
 		var saveContent = function() {
 				var pageContent = {};
@@ -123,7 +142,8 @@ if(CMS.isAuthenticated){
 						data : JSON.stringify(pageContent),
 						contentType : 'application/json',
 						success : function(result) {
-							// TODO
+							 setContentDirty(false);
+							// TODO Show notification
 						},
 						error : function(jqXHR, textStatus, errorThrown) {
 								alert("Error! Could not save content");
