@@ -1,0 +1,73 @@
+<html>
+    <head>
+      <script src="cms_internal_libs/jquery/dist/jquery.min.js"></script>
+      <script>
+          // Include JQuery with different variable than $ in order to avoud conflicts with other JQuery versions
+          // included by the web site
+          var cms$ = $.noConflict(true);
+      </script>
+
+
+      <!-- Style for showing the selected language elements only -->
+      <style>
+        {% for l in supportedLanguages %}
+            {% if l !== language and l !== 'all' %}
+                :lang({{l}}) {
+                    display: none !important;
+                }
+            {% endif %}
+        {% endfor %}
+      </style>
+
+      <!-- Initialization of the global CMS constants -->
+      <script>
+          var CMS = {
+              language : '{{language}}',
+              defaultLanguage : '{{defaultLanguage}}',
+              currentPageName : '{{currentPageName}}',
+              isAuthenticated : {{isAuthenticated}}
+          }
+      </script>
+
+      {% if isAuthenticated %}
+         <script src="cms_internal_libs/tinymce/tinymce.min.js"></script>
+         <link rel="stylesheet" href="__cms/cms.css">
+      {% endif %}
+
+      <script src="__cms/cms.js"></script>
+
+
+      <!-- Additional header content that could be passed from each individual page -->
+      {% block header %}{% endblock %}
+
+      <!-- Header content from the layout -->
+      {% block layoutHeader %}
+      {% endblock %}
+    </head>
+
+    <body>
+        {% block layoutBody %}
+        {% endblock %}
+
+        {% if isAuthenticated %}
+            <!-- Floating button bar containing the save, discard and logout buttons -->
+            <div id="cms-button-bar" class="animated flip">
+              <div>
+                <!-- TODO - define button styles in cms.css -->
+                <a onclick="saveContent()" class="btn btn-default" style="width: 100%;">
+                  <span class="fa fa-floppy-o fa-lg" style="padding: 7px;"></span>
+                  Save
+                </a> <br />
+                <a onclick="location.reload()" class="btn btn-default" style="width: 100%;">
+                  <span class="fa fa-trash-o fa-lg" style="padding: 7px;"></span>
+                  Discard
+                </a> <br />
+                <a href="/logout" class="btn btn-default " style="width: 100%;">
+                  <span class="fa fa-sign-out fa-lg" style="padding: 7px;"></span>
+                  Logout
+                </a>
+              </div>
+            </div>
+        {% endif %}
+    </body>
+</html>

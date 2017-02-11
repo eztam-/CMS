@@ -87,6 +87,9 @@ function checkCmsMarkupErrors(){
 cms$(document).ready(checkCmsMarkupErrors);
 
 
+cms$(window).on('pagehide', function(e){
+      return 'AAAjajajJAJJJAJJt to leave?';
+});
 
 /**
  * This block is just executed when the user is authenticated

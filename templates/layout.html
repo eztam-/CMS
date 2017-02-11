@@ -1,12 +1,6 @@
-<html>
-  <head>
+{% extends "__cms/cms.html" %}
+{% block layoutHeader %}
     <meta charset="UTF-8">
-    <!-- Initialize the cms. This needs to be placed before all other script includes-->
-    {% include "__cms/initCms.tpl" %}
-
-    <!-- Additional header content that could be passed from each individual page -->
-    {% block header %}{% endblock %}
-
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
@@ -15,9 +9,13 @@
         .lang-button-active{
           font-weight: bold;
         }
+        body{
+          padding-top:70px;
+        }
     </style>
-  </head>
-  <body style="padding-top:70px;">
+{% endblock %}
+
+{% block layoutBody %}
     <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header" style="margin-right: 15px;">
@@ -43,14 +41,7 @@
       </div>
     </nav>
 
-    {% if isAuthenticated %}
-        <button onclick="saveContent()">Save</button>
-    {% endif %}
-
     <!-- Content that is defined in the individual page -->
     {% block content %}{% endblock %}
 
-
-
-  </body>
-</html>
+{% endblock %}
