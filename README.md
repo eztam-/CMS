@@ -3,7 +3,10 @@
 ## Basic concept
  TODO
 
+## Template inheritance
+
 ## Variables
+### How to access variables
 The CMS provides some variables that can be used on the server side in the templates via nunjucks or on the client side via Javascript. On the server side the variables could be used in the typically nunjucks style like:
 ```javascript
     {% if isAuthenticated %}
@@ -17,17 +20,21 @@ On the client side all variables are accessible via the globally defined `CMS` o
 ```javascript
     console.log("The current page is: " + CMS.currentPageName);
 ```
+### List of variables
+**_language_**
 
-**_language_ variable**
-The currently selected language code. If no language is selected, then the value is equal to the `defaultLanguage`. For further information read section <b>i18n</b>.
+The currently selected language code. If no language is selected, then the value is equal to the `defaultLanguage`. For further information read section *i18n*.
 
-**_defaultLanguage_ variable**
-The default language can be configured in the cms/conf/conf.js. For further information read section <b>i18n</b>.
+**_defaultLanguage_**
 
-**_isAuthenticated_ variable**
-Is true if the user is authenticated. Otherwise false. For further information read section <b>Authentication</b>.
+The default language can be configured in the cms/conf/conf.js. For further information read section *i18n*.
 
-**_currentPageName_ variable**
+**_isAuthenticated_**
+
+Is true if the user is authenticated. Otherwise false. For further information read section *Authentication*.
+
+**_currentPageName_**
+
 This variable contains the name of the current page, that would be `home` e.g for a page with the URL http://YOUR_DOMAIN/home.
 The variable `currentPageName` can also be used as a CSS class. This is useful if you want to highlight the currently active navigation menu entry with a special CSS style. The CMS is adding automatically an additional class `active` to all elements that have a class matching the `currentPageName`. In the following code example of a navigation bar the menu entry of the current page will get the class `active`.
 
@@ -73,14 +80,15 @@ Translated elements needs to be annotated with the HTML lang attribute whereby t
     <h3 lang="all" cms="3">Dr. Fu Bar</h3>
 ```
 
-The language of a specific page could simply be changed via attaching the GET param ?lang=de to the URL. CMS is automatically adding this param to all `<a href="">` elements in the document so if the language is once selected it will not change when the user klicks on a link. Adding toggle buttons for changing the language to your page could simply be done like this:
+The language of a specific page could simply be changed via attaching the GET parameter ?lang=de to the URL. CMS is automatically adding this param to all `<a href="">` elements in the document so if the language is once selected it will not change when the user klicks on a link. CMS is not adding the parameter to anchor links on the same page nor to the language toggle buttons which are indicated by a class *lang-button-[language code]*. 
+Adding toggle buttons for changing the language to your page could simply be done like this:
 
 ```html
     <a class="lang-button-de" href="/?lang=de">DE</a>
     <a class="lang-button-en" href="/?lang=en">EN</a>
 ```
 
-**Note!** Don't add the lang parameter manually to links ton an anchor on the same page like in the following example since it will cause the page to reload in most browsers.
+**Note!** Don't add the lang parameter manually to links referencing an anchor on the same page like in the following example since it will cause the page to reload in most browsers.
 ```html
     <!-- Don't do this! -->
     <a lang="de" href="#contact?lang=de">Kontakt</a>
