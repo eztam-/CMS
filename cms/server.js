@@ -15,7 +15,7 @@ var db 			= require('./db'),
 
 require('./config/passport')(passport); // pass passport for configuration
 
-var port = process.env.PORT || 9000; // Define port to run server on
+var port = process.argv[2] || 9000; // Define port to run server on
 
 // Configure Nunjucks
 // Multiple template paths are possible like: njucks.configure(['views', 'views/templates', {}
