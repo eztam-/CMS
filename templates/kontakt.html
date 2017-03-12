@@ -1,0 +1,59 @@
+{% extends "layout.html" %} {% block header %}
+<title>Kontakt</title>
+{% endblock %} {% block content %}
+
+<script src="../static/contact_me.js"></script>
+
+<!-- Contact Section -->
+<section id="contact" style="padding-top: 150px">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<div class="text-center">
+					<h2 class="section-heading">Kontakt</h2>
+					<h4 class="text-white">Wir freuen uns von Ihnen zu hören</h4>
+				</div>
+			</div>
+		</div>
+
+		<div class="row" style="margin-top: 30px;">
+			<div class="col-md-6 col-md-offset-3">
+				<form name="sentMessage" id="contactForm" novalidate>
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="Ihr Name *" id="name" required
+							data-validation-required-message="Bitte geben Sie Ihren Namen ein.">
+						<p class="help-block text-danger"></p>
+					</div>
+					<div class="form-group">
+						<input type="email" class="form-control" placeholder="Ihre Email-Adresse *" id="email" required
+							data-validation-required-message="Bitte geben Sie Ihre Email-Adresse ein.">
+						<p class="help-block text-danger"></p>
+					</div>
+					<div class="form-group">
+						<input type="tel" class="form-control" placeholder="Ihre Telefonnumer *" id="phone" required
+							data-validation-required-message="Bitte geben Sie Ihre Telefonnummer ein.">
+						<p class="help-block text-danger"></p>
+					</div>
+					<div class="form-group">
+						<textarea class="form-control" placeholder="Ihre Nachricht *" id="message" required
+							data-validation-required-message="Bitte geben Sie Ihre Nachricht ein."></textarea>
+						<p class="help-block text-danger"></p>
+					</div>
+					<div class="form-group">
+						<input type="text" pattern="4" class="form-control" placeholder="Was ist zwei mal zwei?" id="human" required
+							data-validation-pattern-message="Bitte geben Sie das Ergebnis ein.">
+						<p class="help-block text-danger"></p>
+					</div>
+					<div class="clearfix"></div>
+					<div class="form-group text-center">
+						<div id="success"></div>
+						<button id="sendBtn" type="submit" class="btn btn-xl">Senden</button>
+					</div>
+				</form>
+			</div>
+		</div>
+
+	</div>
+</section>
+
+{% endblock %}

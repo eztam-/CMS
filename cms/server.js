@@ -8,17 +8,22 @@ var express      = require( 'express' ),
     flash        = require('connect-flash'),
     morgan       = require('morgan'),
     passport     = require('passport');
+
+'use strict';
+const nodemailer = require('nodemailer');
+
 // local libs
-var db 			= require('./db'),
-	  utils   = require('./utils'),
-    CONFIG  = require('./config/conf');
+var db 			 = require('./db'),
+	utils        = require('./utils'),
+    CONFIG       = require('./config/conf');
 
 require('./config/passport')(passport); // pass passport for configuration
 
 var port = process.argv[2] || 9000; // Define port to run server on
 
 // Configure Nunjucks
-// Multiple template paths are possible like: njucks.configure(['views', 'views/templates', {}
+// Multiple template paths are possible like: njucks.configure(['views',
+// 'views/templates', {}
 nunjucks.configure( __dirname + CONFIG.templatesDir, {
 	autoescape : true,
 	cache : false, // Set true in production
@@ -31,7 +36,8 @@ app.engine('html', nunjucks.render);
 app.set('view engine', 'html');
 
 
-app.use(express.static(__dirname + CONFIG.staticDir)); // Directory with static files
+app.use(express.static(__dirname + CONFIG.staticDir)); // Directory with static
+														// files
 app.use('/cms_internal_libs', express.static(__dirname+'/node_modules'));
 app.use(bodyParser.json()) // Use JSON format for request body mapping
 app.use(morgan('dev')); // log every request to the console
@@ -52,11 +58,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-//app.post('/login', passport.authenticate('local', {
-//	failureRedirect : '/home'
-//}), function(req, res) {
-//	res.redirect('/'); // TODO externalize post login page
-//});
+// app.post('/login', passport.authenticate('local', {
+// failureRedirect : '/home'
+// }), function(req, res) {
+// res.redirect('/'); // TODO externalize post login page
+// });
 
 
 
@@ -71,6 +77,51 @@ app.post('/login', passport.authenticate('local-login', {
 app.get('/logout', function(req, res) {
 	req.logout();
 	res.redirect(CONFIG.postLogoutPage);
+});
+
+// --------------- mail ---------------------------
+//create reusable transporter object using the default SMTP transport
+let transporter = nodemailer.createTransport(
+	{//
+	host: CONFIG.mailHost,
+	port: CONFIG.mailPort,
+    secureConnection: true,
+    auth: {
+        user: CONFIG.mailSender,
+        pass: CONFIG.mailPassword
+    }
+});
+
+// setup email data with unicode symbols
+let mailOptions = {
+    //from: '"Ali Bumaye" <' + CONFIG.mailSender + '>', // sender address
+    to: 'nodirbek@gmail.com', // , nodirbek@gmail.com', // list of receivers
+    subject: 'Hello', // Subject line
+    text: 'Hello world ?', // plain text body
+    html: '<b>Hello world ?</b>' // html body
+};
+
+//send mail
+app.get('/sendmail', function(req, res) {
+	
+	console.log("START sendmail ------------------------");
+	
+	if (!CONFIG.mailSender){
+		console.log("WARN - sending mail is deactivated because of missing configuration");
+		return;
+	}
+	
+	
+	// send mail with defined transport object
+	transporter.sendMail(mailOptions, (error, info) => {
+	    if (error) {
+	        return console.log(error);
+	    }
+	    console.log('Message %s sent: %s', info.messageId, info.response);
+	});
+	
+	// finished
+	console.log("FINISHED - sending mail.");
 });
 
 // Default landing page
