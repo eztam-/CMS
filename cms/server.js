@@ -11,9 +11,8 @@ var express      = require( 'express' ),
     passport     = require('passport');
 
 const nodemailer = require('nodemailer');
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
+
+
 // local libs
 var db 			 = require('./db'),
 	utils        = require('./utils'),
@@ -40,16 +39,19 @@ app.set('view engine', 'html');
 
 app.use(express.static(__dirname + CONFIG.staticDir)); // Directory with static
 														// files
-app.use('/cms_internal_libs', express.static(__dirname+'/node_modules'));
+app.use('/cms_internal_libs', express.static(__dirname+'/node_modules'))
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json()) // Use JSON format for request body mapping
-app.use(morgan('dev')); // log every request to the console
-app.use(flash()); // use connect-flash for flash messages stored in session
+app.use(morgan('dev')) // log every request to the console
+app.use(flash()) // use connect-flash for flash messages stored in session
 
 // Initialize Passport and restore authentication state from the session.
 app.use(require('cookie-parser')());
+/*
 app.use(require('body-parser').urlencoded({
 	extended : true
 }));
+*/
 app.use(require('express-session')({
 	secret : 'keyboard cat',
 	resave : false,
