@@ -12,7 +12,7 @@
   "dependencies": {
     "alertifyjs": "^1.9.0",
     "bcrypt-nodejs": "0.0.3",
-    "body-parser": "^1.15.2",
+    "body-parser": "^1.17.1",
     "cheerio": "^0.22.0",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.3",
@@ -23,10 +23,10 @@
     "jquery": "^3.1.1",
     "moment": "^2.15.1",
     "morgan": "^1.7.0",
+    "nodemailer": "^3.1.5",
     "nunjucks": "^2.5.2",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
-    "tinymce": "^4.4.3",
-    "nodemailer": "^3.1.5"
+    "tinymce": "^4.4.3"
   }
 }

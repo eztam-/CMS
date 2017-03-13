@@ -91,19 +91,17 @@ let transporter = nodemailer.createTransport(CONFIG.mailConfig);
 app.post('/sendmail', function(req, res) {
 
 	console.log("START sendmail ------------------------");
-console.log(req.body);
+
 	if (!CONFIG.mailConfig){
 		console.log("WARN - sending mail is deactivated because of missing configuration");
     res.status(500).end();
     return;
 	}
 
-
-
   let mailOptions = {
-    to: 'mbirschl@gmail.com', // , nodirbek@gmail.com', // list of receivers
+    to: 'mbirschl@gmail.com, nodirbek@gmail.com', // TODO externalize to config
     subject: req.body.subject,
-    text: 'Email: ' + req.body.Mail + '\nPhone: ' + req.body.Phone + '\nText:\n' + req.body.message+'\n'
+    text: 'Email: ' + req.body.email + '\nPhone: ' + req.body.phone + '\nText:\n' + req.body.message+'\n'
   };
 
 	// send mail with defined transport object
