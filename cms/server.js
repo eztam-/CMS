@@ -78,7 +78,7 @@ app.post('/login', passport.authenticate('local-login', {
 }));
 
 
-app.get('/logout', function(req, res) {
+app.get('/logout', (req, res) => {
 	req.logout();
 	res.redirect(CONFIG.postLogoutPage);
 });
@@ -88,10 +88,9 @@ app.get('/logout', function(req, res) {
 let transporter = nodemailer.createTransport(CONFIG.mailConfig);
 
 
-app.post('/sendmail', function(req, res) {
-
-	console.log("START sendmail ------------------------");
-
+app.post('/sendmail', (req, res) => {
+  
+  console.log('Send mail request with message: %s and subject: %s', req.body.message, req.body.subject);
 	if (!CONFIG.mailConfig){
 		console.log("WARN - sending mail is deactivated because of missing configuration");
     res.status(500).end();
@@ -101,7 +100,7 @@ app.post('/sendmail', function(req, res) {
   let mailOptions = {
     to: 'mbirschl@gmail.com, nodirbek@gmail.com', // TODO externalize to config
     subject: req.body.subject,
-    text: 'Email: ' + req.body.email + '\nPhone: ' + req.body.phone + '\nText:\n' + req.body.message+'\n'
+    text: req.body.message + '\n'
   };
 
 	// send mail with defined transport object
@@ -120,7 +119,7 @@ app.post('/sendmail', function(req, res) {
 
 // Default landing page
 // TODO The default page should be set as constant anywhere
-app.get('/', function(req, res) {
+app.get('/', (req, res) => {
     if(req.query.lang){
         res.redirect('/home?lang='+req.query.lang);
     }else{
@@ -129,7 +128,7 @@ app.get('/', function(req, res) {
 });
 
 // Respond to all GET requests by rendering relevant page using Nunjucks
-app.get('/:page', function(req, res) {
+app.get('/:page', (req, res) => {
 
 	var pageName = req.params.page;
 
@@ -156,7 +155,7 @@ app.get('/:page', function(req, res) {
 
 
 // TODO protect endpoint for only authenticated users
-app.put('/:page', function(req, res) {
+app.put('/:page', (req, res) => {
 
 	if (req.user) { // TODO Auth check should be done in a more generic way
 
