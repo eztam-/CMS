@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "test",
-    "start": "node server.js"
+    "start": "node --harmony server.js"
   },
   "author": "medicus-webicus.de",
   "license": "",
