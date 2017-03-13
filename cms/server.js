@@ -10,9 +10,10 @@ var express      = require( 'express' ),
     morgan       = require('morgan'),
     passport     = require('passport');
 
-'use strict';
 const nodemailer = require('nodemailer');
-
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 // local libs
 var db 			 = require('./db'),
 	utils        = require('./utils'),
@@ -82,40 +83,31 @@ app.get('/logout', function(req, res) {
 
 // --------------- mail ---------------------------
 //create reusable transporter object using the default SMTP transport
-let transporter = nodemailer.createTransport(
-	{//
-	host: CONFIG.mailHost,
-	port: CONFIG.mailPort,
-    secureConnection: true,
-    auth: {
-        user: CONFIG.mailSender,
-        pass: CONFIG.mailPassword
-    }
-});
+let transporter = nodemailer.createTransport(CONFIG.mailConfig);
 
-// setup email data with unicode symbols
-let mailOptions = {
-    //from: '"Ali Bumaye" <' + CONFIG.mailSender + '>', // sender address
-    to: 'nodirbek@gmail.com', // , nodirbek@gmail.com', // list of receivers
-    subject: 'Hello', // Subject line
-    text: 'Hello world ?', // plain text body
-    html: '<b>Hello world ?</b>' // html body
-};
 
-//send mail
-app.get('/sendmail', function(req, res) {
+app.post('/sendmail', function(req, res) {
 
 	console.log("START sendmail ------------------------");
-
-	if (!CONFIG.mailSender){
+console.log(req.body);
+	if (!CONFIG.mailConfig){
 		console.log("WARN - sending mail is deactivated because of missing configuration");
-		return;
+    res.status(500).end();
+    return;
 	}
 
+
+
+  let mailOptions = {
+    to: 'mbirschl@gmail.com', // , nodirbek@gmail.com', // list of receivers
+    subject: req.body.subject,
+    text: 'Email: ' + req.body.Mail + '\nPhone: ' + req.body.Phone + '\nText:\n' + req.body.message+'\n'
+  };
 
 	// send mail with defined transport object
 	transporter.sendMail(mailOptions, (error, info) => {
 	    if (error) {
+          res.status(500).end();
 	        return console.log(error);
 	    }
 	    console.log('Message %s sent: %s', info.messageId, info.response);
@@ -123,6 +115,7 @@ app.get('/sendmail', function(req, res) {
 
 	// finished
 	console.log("FINISHED - sending mail.");
+  res.status(200).end();
 });
 
 // Default landing page
