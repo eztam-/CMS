@@ -1,3 +1,4 @@
+"use strict";
 var LocalStrategy = require('passport-local').Strategy;
 var db 			= require('../db')
 
@@ -9,7 +10,7 @@ module.exports = function(passport) {
 	// passport needs ability to serialize and unserialize users out of session
 
 	// used to serialize the user for the session
-	
+
 	// Configure Passport authenticated session persistence.
 	//
 	// In order to restore authentication state across HTTP requests, Passport needs
@@ -17,7 +18,7 @@ module.exports = function(passport) {
 	// typical implementation of this is as simple as supplying the user ID when
 	// serializing, and querying the user record by ID from the database when
 	// deserializing.
-	
+
 	passport.serializeUser(function(user, done) {
 		done(null, user.id);
 	});
@@ -46,7 +47,7 @@ module.exports = function(passport) {
 			return cb(null, user);
 		});
 	}));
-	
+
 //	passport.use('local-login', new LocalStrategy({
 //	    // by default, local strategy uses username and password
 //	    usernameField : 'username',

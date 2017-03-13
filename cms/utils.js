@@ -1,3 +1,4 @@
+"use strict";
 var fs 			= require('fs'),
  		isValid = require('is-valid-path'),
 		inArray = require('in-array');

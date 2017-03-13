@@ -1,3 +1,4 @@
+"use strict";
 var bcrypt = require('bcrypt-nodejs');
 
 var usersDb = require('./users.json');

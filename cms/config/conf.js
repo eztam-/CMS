@@ -1,3 +1,4 @@
+"use strict";
 /**
  *  CMS configuration
  */
@@ -10,9 +11,9 @@ module.exports = {
   defaultLanguage:   'de',
   supportedLanguages:['de','en'],
   // mail conf
-  mailSender:		 'medicuswebicus@gmail.com', 
+  mailSender:		 'medicuswebicus@gmail.com',
   mailPassword: 	 'passw',
   mailHost:			 'smtp.gmail.com', 		//gmail - "smtp.gmail.com",
   mailPort:			 '587'
-	  
+
 };

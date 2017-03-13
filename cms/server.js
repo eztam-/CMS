@@ -1,3 +1,4 @@
+"use strict";
 var express      = require( 'express' ),
     app          = express(),
     nunjucks     = require( 'nunjucks' ),
@@ -103,15 +104,15 @@ let mailOptions = {
 
 //send mail
 app.get('/sendmail', function(req, res) {
-	
+
 	console.log("START sendmail ------------------------");
-	
+
 	if (!CONFIG.mailSender){
 		console.log("WARN - sending mail is deactivated because of missing configuration");
 		return;
 	}
-	
-	
+
+
 	// send mail with defined transport object
 	transporter.sendMail(mailOptions, (error, info) => {
 	    if (error) {
@@ -119,7 +120,7 @@ app.get('/sendmail', function(req, res) {
 	    }
 	    console.log('Message %s sent: %s', info.messageId, info.response);
 	});
-	
+
 	// finished
 	console.log("FINISHED - sending mail.");
 });
@@ -194,7 +195,7 @@ app.put('/:page', function(req, res) {
 
 });
 
-backup = function(sourcePath, pageName) {
+let backup = function(sourcePath, pageName) {
 	var date = moment().format("YYYY-MM-DD_HHmmss");
 	var targetPath = __dirname + CONFIG.templatesDir + '/backup/' + pageName + date
 			+ '.html';
@@ -203,7 +204,7 @@ backup = function(sourcePath, pageName) {
 	});
 }
 
-updateHtmlContent = function(content, html) {
+let updateHtmlContent = function(content, html) {
 	$ = cheerio.load(html, {
 		decodeEntities : false
 	});
@@ -213,7 +214,7 @@ updateHtmlContent = function(content, html) {
 	return $.html();
 }
 
-generateIds = function(pageName) {
+let generateIds = function(pageName) {
 
 	var htmlFileName = __dirname + CONFIG.templatesDir + '/' + pageName + '.html';
 	// update
