@@ -1,24 +1,33 @@
 "use strict";
-var express      = require( 'express' ),
-    app          = express(),
-    nunjucks     = require( 'nunjucks' ),
-    bodyParser   = require( 'body-parser' ),
-    fs           = require('fs'),
-    moment       = require('moment'),
-    cheerio      = require('cheerio'),
-    flash        = require('connect-flash'),
-    morgan       = require('morgan'),
-    passport     = require('passport');
+const
+    express     = require('express'),
+    app         = express(),
+    nunjucks    = require('nunjucks'),
+    bodyParser  = require('body-parser'),
+    fs          = require('fs'),
+    moment      = require('moment'),
+    cheerio     = require('cheerio'),
+    flash       = require('connect-flash'),
+    morgan      = require('morgan'),
+    passport    = require('passport'),
+    commander   = require('commander'),
+    
+    // Local libs
+    db 			    = require('./db'),
+	  utils       = require('./utils'),
+    mailService = require('./mailService'),
+    CONFIG      = require('./config/conf')
 
-// local libs
-var db 			  = require('./db'),
-	utils       = require('./utils'),
-  mailService = require('./mailService'),
-  CONFIG      = require('./config/conf');
+require('./config/passport')(passport) // pass passport for configuration
 
-require('./config/passport')(passport); // pass passport for configuration
+// TODO Documentation
+commander
+  .version('0.0.1') // TODO
+  .option('-p, --port <port>', 'Port to run server on', parseInt)
+  .parse(process.argv)
 
-var port = process.argv[2] || 9000; // Define port to run server on
+var port = commander.port || CONFIG.port; // Define port to run server on
+
 
 // Configure Nunjucks
 // Multiple template paths are possible like: njucks.configure(['views',
@@ -162,7 +171,7 @@ app.put('/:page', (req, res) => {
 
 });
 
-let backup = function(sourcePath, pageName) {
+let backup = (sourcePath, pageName) => {
 	var date = moment().format("YYYY-MM-DD_HHmmss");
 	var targetPath = __dirname + CONFIG.templatesDir + '/backup/' + pageName + date
 			+ '.html';

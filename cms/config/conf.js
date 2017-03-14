@@ -3,6 +3,7 @@
  *  CMS configuration
  */
 module.exports = {
+  port:              '9000',            // Port to run server on. This is overridden by the command line param --port <port>
   postLogoutPage:    '/',
   loginSuccessPage:  '/home',
   loginFailedPage:   '/login',
