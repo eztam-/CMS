@@ -10,13 +10,11 @@ var express      = require( 'express' ),
     morgan       = require('morgan'),
     passport     = require('passport');
 
-const nodemailer = require('nodemailer');
-
-
 // local libs
-var db 			 = require('./db'),
-	utils        = require('./utils'),
-    CONFIG       = require('./config/conf');
+var db 			  = require('./db'),
+	utils       = require('./utils'),
+  mailService = require('./mailService'),
+  CONFIG      = require('./config/conf');
 
 require('./config/passport')(passport); // pass passport for configuration
 
@@ -83,39 +81,16 @@ app.get('/logout', (req, res) => {
 	res.redirect(CONFIG.postLogoutPage);
 });
 
-// --------------- mail ---------------------------
-//create reusable transporter object using the default SMTP transport
-let transporter = nodemailer.createTransport(CONFIG.mailConfig);
-
 
 app.post('/sendmail', (req, res) => {
-  
-  console.log('Send mail request with message: %s and subject: %s', req.body.message, req.body.subject);
-	if (!CONFIG.mailConfig){
-		console.log("WARN - sending mail is deactivated because of missing configuration");
-    res.status(500).end();
-    return;
-	}
-
-  let mailOptions = {
-    to: 'mbirschl@gmail.com, nodirbek@gmail.com', // TODO externalize to config
-    subject: req.body.subject,
-    text: req.body.message + '\n'
-  };
-
-	// send mail with defined transport object
-	transporter.sendMail(mailOptions, (error, info) => {
-	    if (error) {
-          res.status(500).end();
-	        return console.log(error);
-	    }
-	    console.log('Message %s sent: %s', info.messageId, info.response);
-	});
-
-	// finished
-	console.log("FINISHED - sending mail.");
-  res.status(200).end();
-});
+    mailService.sendMail(req.body.subject, req.body.message)
+        .then((info) => {
+            res.status(200).end();
+        })
+        .catch((error) => {
+            res.status(500).end();
+        })
+})
 
 // Default landing page
 // TODO The default page should be set as constant anywhere
