@@ -11,7 +11,7 @@ const
     morgan      = require('morgan'),
     passport    = require('passport'),
     commander   = require('commander'),
-    
+
     // Local libs
     db 			    = require('./db'),
 	  utils       = require('./utils'),
@@ -217,6 +217,7 @@ let generateIds = function(pageName) {
 
 }
 
+// TODO add clustering that uses one cluster per CPU core or a CONFIG value
 // start server
 app.listen(port);
 console.log('Server running at http://localhost:%s', port);
