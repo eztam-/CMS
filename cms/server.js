@@ -5,8 +5,6 @@ const
     nunjucks    = require('nunjucks'),
     bodyParser  = require('body-parser'),
     fs          = require('fs'),
-    moment      = require('moment'),
-    cheerio     = require('cheerio'),
     flash       = require('connect-flash'),
     morgan      = require('morgan'),
     passport    = require('passport'),
@@ -69,14 +67,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-// app.post('/login', passport.authenticate('local', {
-// failureRedirect : '/home'
-// }), function(req, res) {
-// res.redirect('/'); // TODO externalize post login page
-// });
-
-
-
 // process the login form
 app.post('/login', passport.authenticate('local-login', {
     successRedirect : CONFIG.loginSuccessPage,
@@ -117,7 +107,7 @@ app.get('/:page', (req, res) => {
 		// TODO fix this favicon problem!!!
 		if (pageName !== 'favicon.ico') {
 			// not finished yet
-			 generateIds(pageName);
+			 utils.generateIds(pageName);
 		}
 	}
 	res.render(pageName + '.html', {
@@ -132,8 +122,6 @@ app.get('/:page', (req, res) => {
 });
 
 
-
-
 // TODO protect endpoint for only authenticated users
 app.put('/:page', (req, res) => {
 
@@ -143,11 +131,13 @@ app.put('/:page', (req, res) => {
 		var htmlFileName = __dirname + CONFIG.templatesDir + '/' + req.params.page + '.html';
 
 		// backup
-		backup(htmlFileName, req.params.page);
+		utils.backup(htmlFileName, req.params.page);
 
+    // TODO extract this to utils or to an extra service
+    // TODO use promises
 		// update
 		fs.readFile(htmlFileName, 'utf8', function(err, html) {
-			var newHtml = updateHtmlContent(newContent, html)
+			var newHtml = utils.updateHtmlContent(newContent, html)
 
 			fs.writeFile(htmlFileName, newHtml, 'utf8',function(err) {
 				if (err) {
@@ -167,51 +157,8 @@ app.put('/:page', (req, res) => {
 
 });
 
-let backup = (sourcePath, pageName) => {
-	var date = moment().format("YYYY-MM-DD_HHmmss");
-	var targetPath = __dirname + CONFIG.templatesDir + '/backup/' + pageName + date
-			+ '.html';
-	// copy
-	utils.copy(sourcePath, targetPath, function() {
-	});
-}
 
-let updateHtmlContent = function(content, html) {
-	$ = cheerio.load(html, {
-		decodeEntities : false
-	});
-	Object.keys(content).forEach(function(cmsId) {
-		$('[cms=' + cmsId + ']').html(content[cmsId]);
-	});
-	return $.html();
-}
 
-let generateIds = function(pageName) {
-
-	var htmlFileName = __dirname + CONFIG.templatesDir + '/' + pageName + '.html';
-	// update
-	fs.readFile(htmlFileName, 'utf8', function(err, html) {
-		$ = cheerio.load(html, {
-			decodeEntities : false
-		});
-
-		// Add generated ids to cms attributes which have no id yet
-		$('[cms=""]').each(function() {
-			$(this).attr("cms", utils.findUnusedId($));
-		});
-		var newHtml = $.html();
-
-		// save
-		fs.writeFile(htmlFileName, newHtml, function(err) {
-			if (err) {
-				res.status(400);
-				return console.log(err);
-			}
-		})
-		console.log("-- OK -- The file was saved! (generating ids finished)");
-	});
-
-}
 
 // TODO add clustering that uses one cluster per CPU core or a CONFIG value
 // start server
