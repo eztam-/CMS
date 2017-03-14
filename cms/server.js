@@ -36,33 +36,23 @@ nunjucks.configure( __dirname + CONFIG.templatesDir, {
 	express : app,
 	watch : true
 // Set true in production
-});
+})
 // Set Nunjucks as rendering engine for pages with .html suffix
 app.engine('html', nunjucks.render);
 app.set('view engine', 'html');
 
-
-app.use(express.static(__dirname + CONFIG.staticDir)); // Directory with static
-														// files
+app.use(express.static(__dirname + CONFIG.staticDir)); // Directory with static files
 app.use('/cms_internal_libs', express.static(__dirname+'/node_modules'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json()) // Use JSON format for request body mapping
 app.use(morgan('dev')) // log every request to the console
 app.use(flash()) // use connect-flash for flash messages stored in session
-
-// Initialize Passport and restore authentication state from the session.
-app.use(require('cookie-parser')());
-/*
-app.use(require('body-parser').urlencoded({
-	extended : true
-}));
-*/
+app.use(require('cookie-parser')()); // Required by Passport to restore authentication state from the session.
 app.use(require('express-session')({
-	secret : 'keyboard cat',
-	resave : false,
-	saveUninitialized : false
-}));
-
+    	secret : 'keyboard cat',
+    	resave : false,
+    	saveUninitialized : false
+  }));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -102,62 +92,50 @@ app.get('/:page', (req, res) => {
 
 	var pageName = req.params.page;
 
-	// generate ids for cms tagged elements
-  	if (req.user) {
-		// TODO fix this favicon problem!!!
-		if (pageName !== 'favicon.ico') {
-			// not finished yet
-			 utils.generateIds(pageName);
-		}
+  // TODO fix this favicon problem!!!
+  if (pageName === 'favicon.ico') {
+      res.status(404).end()
+      return
+  }
+	// generate ids for cms tagged elements if the user is logged in
+  if (req.user) {
+			 utils.generateIds(pageName)
 	}
 	res.render(pageName + '.html', {
-		currentPageName : pageName,
-		isAuthenticated : !!req.user,
-    language : req.query.lang ? req.query.lang : CONFIG.defaultLanguage,
-    defaultLanguage : CONFIG.defaultLanguage,
-    supportedLanguages: CONFIG.supportedLanguages
-	});
-	res.locals.messages = req.flash('message');
-	console.log("USER", req.user);
-});
+  		currentPageName : pageName,
+  		isAuthenticated : !!req.user,
+      language : req.query.lang ? req.query.lang : CONFIG.defaultLanguage,
+      defaultLanguage : CONFIG.defaultLanguage,
+      supportedLanguages: CONFIG.supportedLanguages
+	})
+	res.locals.messages = req.flash('message') // TODO For what is this needed?
+})
 
 
 // TODO protect endpoint for only authenticated users
 app.put('/:page', (req, res) => {
 
-	if (req.user) { // TODO Auth check should be done in a more generic way
+	if (!req.user) { // TODO Auth check should be done in a more generic way
+    res.status(401).end()
+    return
+  }
 
-		var newContent = req.body;
-		var htmlFileName = __dirname + CONFIG.templatesDir + '/' + req.params.page + '.html';
+  // TODO Check security concerns
+	var htmlFileName = __dirname + CONFIG.templatesDir + '/' + req.params.page + '.html';
 
-		// backup
-		utils.backup(htmlFileName, req.params.page);
+  // TODO this is not working! Why?
+  // TODO Add this to the promise chain below
+	utils.backup(htmlFileName, req.params.page);
 
-    // TODO extract this to utils or to an extra service
-    // TODO use promises
-		// update
-		fs.readFile(htmlFileName, 'utf8', function(err, html) {
-			var newHtml = utils.updateHtmlContent(newContent, html)
-
-			fs.writeFile(htmlFileName, newHtml, 'utf8',function(err) {
-				if (err) {
-					res.status(400);
-					return console.log(err);
-				}
-			})
-			console.log("-- OK -- The file was saved!");
-		})
-		res.send('');
-		res.status(200);
-		return;
-	}
-	res.status(401);
-	res.send('');
-	return;
-
-});
-
-
+  utils.readFile(htmlFileName, 'utf8')
+      .then((html) => utils.updateHtmlContent(req.body, html))
+      .then((updatedHtml) => utils.writeFile(htmlFileName, updatedHtml, 'utf8'))
+      .then(() => { res.status(200).end() })
+      .catch((err) => {
+          console.log(err)
+          res.status(400).end()
+      })
+})
 
 
 // TODO add clustering that uses one cluster per CPU core or a CONFIG value

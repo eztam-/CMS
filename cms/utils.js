@@ -92,7 +92,27 @@ module.exports = {
 
   },
 
+  readFile : (filename, encoding) => {
+      return new Promise((resolve, reject) => {
+          fs.readFile(filename, encoding, (err, data) =>{
+              if (err)
+                  reject(err)
+              else
+                  resolve(data)
+          })
+      })
+  },
 
+  writeFile : (filename, data, encoding) => {
+      return new Promise((resolve, reject) => {
+           fs.writeFile(filename, data, 'utf8', (err) => {
+              if (err)
+                  reject(err)
+              else
+                  resolve()
+          })
+      })
+  },
 
   backup : (sourcePath, pageName) => {
   	var date = moment().format("YYYY-MM-DD_HHmmss");
@@ -104,13 +124,17 @@ module.exports = {
   },
 
   updateHtmlContent : (content, html) => {
-  	let $ = cheerio.load(html, {
-  		decodeEntities : false
-  	});
-  	Object.keys(content).forEach(function(cmsId) {
-  		$('[cms=' + cmsId + ']').html(content[cmsId]);
-  	});
-  	return $.html();
-  }
+    return new Promise((resolve, reject) => {
+        console.log("2")
+        let jquery = cheerio.load(html, { decodeEntities : false })
+      	Object.keys(content).forEach(function(cmsId) {
+      		  jquery('[cms=' + cmsId + ']').html(content[cmsId])
+      	})
+        resolve(jquery.html())
+        })
+    },
+
+
+
 
 };
