@@ -100,6 +100,11 @@ app.get('/:page', (req, res) => {
 	// generate ids for cms tagged elements if the user is logged in
   if (req.user) {
 			 utils.generateIds(pageName)
+       .then()
+       .catch((err) => {
+          res.status(404).end()
+          return
+       })
 	}
 	res.render(pageName + '.html', {
   		currentPageName : pageName,

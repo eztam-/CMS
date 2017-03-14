@@ -13,7 +13,6 @@ let findUnusedId = function($) {
     var usedIds = $('[cms!=""][cms]').map( function(i,elem) {
         return $(elem).attr("cms");
     }).get();
-
     var newId=0
     for(; inArray(usedIds, newId.toString()); newId++){}
     return newId;
@@ -58,10 +57,21 @@ let copy = (source, target, cb) => {
   console.log('-- OK -- coping finished.');
 }
 
+
+ let addIdsToHtml = (html) => {
+     return new Promise((resolve, reject) => {
+         let $ = cheerio.load(html, { decodeEntities : false })
+         // Add generated ids to cms attributes which have no id yet
+         // Attention! Do not replace function with ()=> since this lead to problems with the this key word
+         $('[cms=""]').each(function()  {
+              $(this).attr("cms", findUnusedId($))
+         })
+         resolve($.html())
+      })
+  }
+
+
 module.exports = {
-
-
-
 
 
   /**
@@ -70,30 +80,15 @@ module.exports = {
   generateIds : function(pageName) {
 
   	var htmlFileName = __dirname + CONFIG.templatesDir + '/' + pageName + '.html';
-  	// update
-  	fs.readFile(htmlFileName, 'utf8', function(err, html) {
-  		let $ = cheerio.load(html, { decodeEntities : false });
 
-  		// Add generated ids to cms attributes which have no id yet
-  		$('[cms=""]').each(function() {
-  			$(this).attr("cms", findUnusedId($));
-  		});
-  		var newHtml = $.html();
-
-  		// save
-  		fs.writeFile(htmlFileName, newHtml, function(err) {
-  			if (err) {
-  				res.status(400);
-  				return console.log(err);
-  			}
-  		})
-  		console.log("-- OK -- The file was saved! (generating ids finished)");
-  	});
-
+    return this.readFile(htmlFileName, 'utf8')
+        .then((html) => addIdsToHtml(html))
+        .then((newHtml) => this.writeFile(htmlFileName, newHtml, 'utf8'))
   },
 
   readFile : (filename, encoding) => {
       return new Promise((resolve, reject) => {
+        console.log("1")
           fs.readFile(filename, encoding, (err, data) =>{
               if (err)
                   reject(err)
@@ -105,6 +100,7 @@ module.exports = {
 
   writeFile : (filename, data, encoding) => {
       return new Promise((resolve, reject) => {
+          console.log("3")
            fs.writeFile(filename, data, 'utf8', (err) => {
               if (err)
                   reject(err)
@@ -115,26 +111,23 @@ module.exports = {
   },
 
   backup : (sourcePath, pageName) => {
-  	var date = moment().format("YYYY-MM-DD_HHmmss");
-  	var targetPath = __dirname + CONFIG.templatesDir + '/backup/' + pageName + date
-  			+ '.html';
-  	// copy
-  	copy(sourcePath, targetPath, function() {
-  	});
+    	var date = moment().format("YYYY-MM-DD_HHmmss");
+    	var targetPath = __dirname + CONFIG.templatesDir + '/backup/' + pageName + date
+    			+ '.html';
+    	// copy
+      // TODO Handle errors and asynchronous processing by using promise
+    	copy(sourcePath, targetPath, function() {
+    	});
   },
 
   updateHtmlContent : (content, html) => {
-    return new Promise((resolve, reject) => {
-        console.log("2")
-        let jquery = cheerio.load(html, { decodeEntities : false })
-      	Object.keys(content).forEach(function(cmsId) {
-      		  jquery('[cms=' + cmsId + ']').html(content[cmsId])
-      	})
-        resolve(jquery.html())
-        })
-    },
-
-
-
+      return new Promise((resolve, reject) => {
+          let jquery = cheerio.load(html, { decodeEntities : false })
+        	Object.keys(content).forEach((cmsId) => {
+        		  jquery('[cms=' + cmsId + ']').html(content[cmsId])
+        	})
+          resolve(jquery.html())
+          })
+      },
 
 };
