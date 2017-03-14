@@ -90,15 +90,11 @@ app.get('/logout', (req, res) => {
 	res.redirect(CONFIG.postLogoutPage);
 });
 
-
+// TODO Check if this blocks the whole server thread or not
 app.post('/sendmail', (req, res) => {
     mailService.sendMail(req.body.subject, req.body.message)
-        .then((info) => {
-            res.status(200).end();
-        })
-        .catch((error) => {
-            res.status(500).end();
-        })
+        .then((info) => { res.status(200).end() })
+        .catch((error) => { res.status(500).end(error) })
 })
 
 // Default landing page
