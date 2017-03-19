@@ -13,7 +13,7 @@ const
     // Local libs
 	  utils       = require('./utils'),
     mailService = require('./mailService'),
-    CONFIG      = require('./config/conf')
+    CONFIG      = require('./config')
 
 require('./passport')(passport) // pass passport for configuration
 

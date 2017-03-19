@@ -3,7 +3,7 @@ const
     fs 			= require('fs'),
  		isValid = require('is-valid-path'),
 		inArray = require('in-array'),
-    CONFIG  = require('./config/conf'),
+    CONFIG  = require('./config'),
     cheerio = require('cheerio'),
     moment = require('moment')
 

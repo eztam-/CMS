@@ -1,6 +1,6 @@
 "use strict";
 const nodemailer = require('nodemailer')
-const CONFIG     = require('./config/conf')
+const CONFIG     = require('./config')
 
 //create reusable transporter object using the default SMTP transport
 let transporter = nodemailer.createTransport(CONFIG.mailConfig)

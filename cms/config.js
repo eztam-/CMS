@@ -1,5 +1,5 @@
 "use strict";
-const userConfig = require('../../config.js')
+const userConfig = require('../config.js')
 
 /** TODO public documentaton
  * Do not change any settings directly in this file !!!

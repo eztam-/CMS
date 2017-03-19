@@ -1,7 +1,7 @@
 "use strict";
 const LocalStrategy = require('passport-local').Strategy,
  			bcrypt 				= require('bcrypt-nodejs'),
- 			CONFIG 				= require('./config/conf')
+ 			CONFIG 				= require('./config')
 
 
 
