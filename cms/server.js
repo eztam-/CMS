@@ -9,7 +9,7 @@ const
     morgan      = require('morgan'),
     passport    = require('passport'),
     commander   = require('commander'),
-
+    cluster     = require('cluster'),
     // Local libs
 	  utils       = require('./utils'),
     mailService = require('./mailService'),
@@ -38,24 +38,24 @@ nunjucks.configure( templateFolders, {
 // Set true in production
 })
 // Set Nunjucks as rendering engine for pages with .html suffix
-app.engine('html', nunjucks.render);
-app.set('view engine', 'html');
+app.engine('html', nunjucks.render)
+app.set('view engine', 'html')
 
-app.use(express.static(__dirname + CONFIG.staticDir)); // Directory with static files
+app.use(express.static(__dirname + CONFIG.staticDir)) // Directory with static files
 app.use('/cms_internal_libs', express.static(__dirname+'/node_modules'))
 app.use('/cms_internal_static_files', express.static(__dirname+'/clientSide/static'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json()) // Use JSON format for request body mapping
 app.use(morgan('dev')) // log every request to the console
 app.use(flash()) // use connect-flash for flash messages stored in session
-app.use(require('cookie-parser')()); // Required by Passport to restore authentication state from the session.
+app.use(require('cookie-parser')()) // Required by Passport to restore authentication state from the session.
 app.use(require('express-session')({
     	secret : 'keyboard cat',
     	resave : false,
     	saveUninitialized : false
   }));
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.initialize())
+app.use(passport.session())
 
 
 // process the login form
@@ -68,7 +68,7 @@ app.post('/login', passport.authenticate('local-login', {
 
 app.get('/logout', (req, res) => {
 	req.logout();
-	res.redirect(CONFIG.postLogoutPage);
+	res.redirect(CONFIG.postLogoutPage)
 });
 
 // TODO Check if this blocks the whole server thread or not
@@ -84,14 +84,14 @@ app.get('/', (req, res) => {
     if(req.query.lang){
         res.redirect('/home?lang='+req.query.lang);
     }else{
-  	    res.redirect('/home');
+  	    res.redirect('/home')
     }
 });
 
 // Respond to all GET requests by rendering relevant page using Nunjucks
 app.get('/:page', (req, res) => {
 
-	var pageName = req.params.page;
+	var pageName = req.params.page
 
   // TODO fix this favicon problem!!!
   if (pageName === 'favicon.ico') {
@@ -127,11 +127,11 @@ app.put('/:page', (req, res) => {
   }
 
   // TODO Check security concerns
-	var htmlFileName = __dirname + CONFIG.templatesDir + '/' + req.params.page + '.html';
+	var htmlFileName = __dirname + CONFIG.templatesDir + '/' + req.params.page + '.html'
 
   // TODO this is not working! Why?
   // TODO Add this to the promise chain below
-	utils.backup(htmlFileName, req.params.page);
+	utils.backup(htmlFileName, req.params.page)
 
   utils.readFile(htmlFileName, 'utf8')
       .then((html) => utils.updateHtmlContent(req.body, html))
@@ -144,7 +144,22 @@ app.put('/:page', (req, res) => {
 })
 
 
-// TODO add clustering that uses one cluster per CPU core or a CONFIG value
-// start server
-app.listen(port);
-console.log('Server running at http://localhost:%s', port);
+
+
+// Start the server cluster
+if (cluster.isMaster) {
+  console.log('Server running at http://localhost:%s', port)
+  console.log(`Master cluster ${process.pid} is running`)
+
+  // Fork workers.
+  for (let i = 0; i < CONFIG.numProcesses; i++) {
+    cluster.fork()
+  }
+
+  cluster.on('exit', (worker, code, signal) => {
+    console.log(`Worker process ${worker.process.pid} died`)
+  })
+} else {
+  app.listen(port)
+  console.log(`Worker process ${process.pid} started`)
+}

@@ -1,5 +1,6 @@
 "use strict";
-var fs 			= require('fs'),
+const
+    fs 			= require('fs'),
  		isValid = require('is-valid-path'),
 		inArray = require('in-array'),
     CONFIG  = require('./config/conf'),
@@ -72,7 +73,7 @@ let copy = (source, target, cb) => {
 
 
 module.exports = {
-
+  // TODO Bluebird promises have one single method to promesivy functions. This should better be used instead of all the Promise blocks below
 
   /**
   * Reads the page with the given names and generates ID's for all cms tags that do not have an ID yet
@@ -86,7 +87,6 @@ module.exports = {
 
   readFile : (filename, encoding) => {
       return new Promise((resolve, reject) => {
-        console.log("1")
           fs.readFile(filename, encoding, (err, data) =>{
               if (err)
                   reject(err)
@@ -98,7 +98,6 @@ module.exports = {
 
   writeFile : (filename, data, encoding) => {
       return new Promise((resolve, reject) => {
-          console.log("3")
            fs.writeFile(filename, data, 'utf8', (err) => {
               if (err)
                   reject(err)
