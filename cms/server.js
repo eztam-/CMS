@@ -29,12 +29,15 @@ var port = commander.port || CONFIG.port; // Define port to run server on
 // Configure Nunjucks
 // Multiple template paths are possible like: njucks.configure(['views',
 // 'views/templates', {}
+// TODO there are many possible performance improvements see https://mozilla.github.io/nunjucks/api.html#configure
+// TODO cache templates and invalidate cache when content is updated
 let templateFolders = [__dirname + '/clientSide/templates'  , __dirname + CONFIG.templatesDir]
 nunjucks.configure( templateFolders, {
 	autoescape : true,
 	cache : false, // Set true in production
 	express : app,
-	watch : true
+	watch : true,
+
 // Set true in production
 })
 // Set Nunjucks as rendering engine for pages with .html suffix
@@ -49,11 +52,19 @@ app.use(bodyParser.json()) // Use JSON format for request body mapping
 app.use(morgan('dev')) // log every request to the console
 app.use(flash()) // use connect-flash for flash messages stored in session
 app.use(require('cookie-parser')()) // Required by Passport to restore authentication state from the session.
-app.use(require('express-session')({
+
+// Storing sessions in a file is very slow. But this is needed because with clustering it is not possible to share variables between different processes.
+// A better way would be to use a DB but this is not an option. So we need to store the sessions in a file and to avoid performance impacts
+// the sessions should only be used when a user is logged in!
+// TODO Read above! Check that sessions are just used when user is logged in!
+var session = require('express-session')
+var FileStore = require('session-file-store')(session)
+app.use(session({
     	secret : 'keyboard cat',
     	resave : false,
-    	saveUninitialized : false
-  }));
+    	saveUninitialized : false,
+      store: new FileStore({}),
+  }))
 app.use(passport.initialize())
 app.use(passport.session())
 
@@ -120,7 +131,6 @@ app.get('/:page', (req, res) => {
 
 // TODO protect endpoint for only authenticated users
 app.put('/:page', (req, res) => {
-
 	if (!req.user) { // TODO Auth check should be done in a more generic way
     res.status(401).end()
     return

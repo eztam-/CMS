@@ -28,11 +28,13 @@ module.exports = (passport) => {
 
 
 	passport.serializeUser((user, done) => {
+		console.log("11 ",user)
 		done(null, user.name);
 	});
 
 	// used to deserialize the user
 	passport.deserializeUser((id, cb) => {
+		console.log("22 ",id)
 		let user = CONFIG.users.find((u)=>{ return u.name === id})
 		if (user) {
 			cb(null, user)
