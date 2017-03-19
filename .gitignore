@@ -2,7 +2,7 @@
 .DS_Store
 templates/backup
 node_modules
-
+cms/sessions
 
 # Logs
 logs
