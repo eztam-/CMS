@@ -11,12 +11,11 @@ const
     commander   = require('commander'),
 
     // Local libs
-    db 			    = require('./db'),
 	  utils       = require('./utils'),
     mailService = require('./mailService'),
     CONFIG      = require('./config/conf')
 
-require('./config/passport')(passport) // pass passport for configuration
+require('./passport')(passport) // pass passport for configuration
 
 // TODO Documentation
 commander

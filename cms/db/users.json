@@ -1,5 +1,0 @@
-[
-  {"id": 1, "username": "a",       "password": "$2a$08$Bo8ImxqyJh5cPNv6hgpEj.V8TP/5zRaD5eduHdwiKBYPl5l6KOkSm",  "email": "a@mail.com" },
-  {"id": 2, "username": "nicolai", "password": "$2a$08$.eh96sXTOrj0lWhE0S/G9.6C.DfeJpJ.Bk8xOQFuqiGHHVMpNaNMi",  "email": "aa@mail.com" },
-  {"id": 3, "username": "admin",   "password": "$2a$08$.YTrlExHXrtg5s8V5aU7YOcIWf80Dg4OHm1/wnUvAjwcKEc3KwjL6",  "email": "b@mail.com" }
-]
