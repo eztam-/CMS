@@ -1,28 +1,31 @@
 "use strict";
+
+// TODO Public documentation
+const commander = require('commander')
+commander
+  .version('0.0.1') // TODO
+  .option('-p, --port <port>', 'Port to run server on', parseInt)
+  .option('-c, --config [configPath]', 'Path to the configuration file. Default is ./config.js') // TODO externalize the default filename
+  .parse(process.argv)
+
 const
     express     = require('express'),
     app         = express(),
     nunjucks    = require('nunjucks'),
     bodyParser  = require('body-parser'),
     fs          = require('fs'),
-    flash       = require('connect-flash'),
     morgan      = require('morgan'),
     passport    = require('passport'),
-    commander   = require('commander'),
     cluster     = require('cluster'),
     // Local libs
-	  utils       = require('./utils'),
+    utils       = require('./utils'),
     mailService = require('./mailService'),
     CONFIG      = require('./config')
+
 
 require('./passport')(passport) // pass passport for configuration
 
 // TODO Documentation
-commander
-  .version('0.0.1') // TODO
-  .option('-p, --port <port>', 'Port to run server on', parseInt)
-  .parse(process.argv)
-
 var port = commander.port || CONFIG.port; // Define port to run server on
 
 
@@ -50,7 +53,6 @@ app.use('/cms_internal_static_files', express.static(__dirname+'/clientSide/stat
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json()) // Use JSON format for request body mapping
 app.use(morgan('dev')) // log every request to the console
-app.use(flash()) // use connect-flash for flash messages stored in session
 app.use(require('cookie-parser')()) // Required by Passport to restore authentication state from the session.
 
 // Storing sessions in a file is very slow. But this is needed because with clustering it is not possible to share variables between different processes.
@@ -72,8 +74,7 @@ app.use(passport.session())
 // process the login form
 app.post('/login', passport.authenticate('local-login', {
     successRedirect : CONFIG.loginSuccessPage,
-    failureRedirect : CONFIG.loginFailedPage,
-    failureFlash : true // allow flash messages
+    failureRedirect : CONFIG.loginFailedPage
 }));
 
 
@@ -125,7 +126,6 @@ app.get('/:page', (req, res) => {
       defaultLanguage : CONFIG.defaultLanguage,
       supportedLanguages: CONFIG.supportedLanguages
 	})
-	res.locals.messages = req.flash('message') // TODO For what is this needed?
 })
 
 
@@ -159,7 +159,9 @@ app.put('/:page', (req, res) => {
 // Start the server cluster
 if (cluster.isMaster) {
   console.log('Server running at http://localhost:%s', port)
-  console.log(`Master cluster ${process.pid} is running`)
+  console.log(`Master cluster process ${process.pid} started`)
+  let configFilePath = commander.config || './config.js' // TODO Externalize the default config filename to config
+  console.log("Using configuration file: " + configFilePath)
 
   // Fork workers.
   for (let i = 0; i < CONFIG.numProcesses; i++) {

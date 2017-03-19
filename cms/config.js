@@ -1,5 +1,8 @@
 "use strict";
-const userConfig = require('../config.js')
+
+const commander   = require('commander')
+let configFilePath = commander.config ? commander.config.replace(/.js$/, "") : './config' // TODO externalize the default filename
+const userConfig   = require(configFilePath)
 
 /** TODO public documentaton
  * Do not change any settings directly in this file !!!
@@ -25,8 +28,8 @@ const userConfig = require('../config.js')
       }
   },
   users: []
-
 }
+
 
 const mergedConfig = Object.assign(defaultConfig, userConfig)
 
