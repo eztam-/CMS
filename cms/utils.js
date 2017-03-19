@@ -78,9 +78,7 @@ module.exports = {
   * Reads the page with the given names and generates ID's for all cms tags that do not have an ID yet
   */
   generateIds : function(pageName) {
-
   	var htmlFileName = __dirname + CONFIG.templatesDir + '/' + pageName + '.html';
-
     return this.readFile(htmlFileName, 'utf8')
         .then((html) => addIdsToHtml(html))
         .then((newHtml) => this.writeFile(htmlFileName, newHtml, 'utf8'))

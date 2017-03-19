@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+      <!-- TODO include both libs just wehn authenticated? -->
       <script src="cms_internal_libs/jquery/dist/jquery.min.js"></script>
       <script src="cms_internal_libs/alertifyjs/build/alertify.min.js"></script>
 
@@ -35,23 +36,22 @@
       {% if isAuthenticated %}
          <script src="cms_internal_libs/tinymce/tinymce.min.js"></script>
          <link rel="stylesheet" href="cms_internal_libs/alertifyjs/build/css/alertify.min.css">
-         <link rel="stylesheet" href="__cms/cms.css">
+         <link rel="stylesheet" href="cms_internal_static_files/cms.css">
       {% endif %}
 
-      <script src="__cms/cms.js"></script>
+      <script src="cms_internal_static_files/cms.js"></script>
 
 
       <!-- Additional header content that could be passed from each individual page -->
       {% block header %}{% endblock %}
 
       <!-- Header content from the layout -->
-      {% block layoutHeader %}
-      {% endblock %}
+      {% block layoutHeader %}{% endblock %}
     </head>
 
     <body>
-        {% block layoutBody %}
-        {% endblock %}
+        <!-- Body content from the layout -->
+        {% block layoutBody %}{% endblock %}
 
         {% if isAuthenticated %}
             <!-- Floating button bar containing the save, discard and logout buttons -->
@@ -73,5 +73,6 @@
               </div>
             </div>
         {% endif %}
+
     </body>
 </html>

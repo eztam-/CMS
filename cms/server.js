@@ -30,7 +30,8 @@ var port = commander.port || CONFIG.port; // Define port to run server on
 // Configure Nunjucks
 // Multiple template paths are possible like: njucks.configure(['views',
 // 'views/templates', {}
-nunjucks.configure( __dirname + CONFIG.templatesDir, {
+let templateFolders = [__dirname + '/clientSide/templates'  , __dirname + CONFIG.templatesDir]
+nunjucks.configure( templateFolders, {
 	autoescape : true,
 	cache : false, // Set true in production
 	express : app,
@@ -43,6 +44,7 @@ app.set('view engine', 'html');
 
 app.use(express.static(__dirname + CONFIG.staticDir)); // Directory with static files
 app.use('/cms_internal_libs', express.static(__dirname+'/node_modules'))
+app.use('/cms_internal_static_files', express.static(__dirname+'/clientSide/static'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json()) // Use JSON format for request body mapping
 app.use(morgan('dev')) // log every request to the console

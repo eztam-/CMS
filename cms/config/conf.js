@@ -17,7 +17,7 @@ module.exports = {
       secureConnection: true,
       auth: {
           user: 'medicuswebicus@gmail.com',
-          pass: '',
+          pass: 'medweb2015',
       }
   }
 
