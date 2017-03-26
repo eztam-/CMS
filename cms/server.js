@@ -124,7 +124,8 @@ app.get('/:page', (req, res) => {
   		isAuthenticated : !!req.user,
       language : req.query.lang ? req.query.lang : CONFIG.defaultLanguage,
       defaultLanguage : CONFIG.defaultLanguage,
-      supportedLanguages: CONFIG.supportedLanguages
+      supportedLanguages: CONFIG.supportedLanguages,
+      queryParams: req.query  //TODO public documentation
 	})
 })
 
