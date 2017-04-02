@@ -157,8 +157,13 @@ app.put('/:page', (req, res) => {
 
 
 
-// Start the server cluster
-if (cluster.isMaster) {
+// Start the server
+if (CONFIG.numProcesses === 1) {
+  console.log('Clustering is disabled')
+  console.log('Server running at http://localhost:%s', port)
+  app.listen(port)
+}
+else if (cluster.isMaster) {
   console.log('Server running at http://localhost:%s', port)
   console.log(`Master cluster process ${process.pid} started`)
   let configFilePath = commander.config || './config.js' // TODO Externalize the default config filename to config
