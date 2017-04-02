@@ -1,7 +1,7 @@
 "use strict";
 
 const commander   = require('commander')
-let configFilePath = commander.config ? commander.config.replace(/.js$/, "") : './config' // TODO externalize the default filename
+let configFilePath = commander.config ? commander.config.replace(/.js$/, "") : '../config' // TODO externalize the default filename
 const userConfig   = require(configFilePath)
 
 /** TODO public documentaton
